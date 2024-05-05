@@ -5,7 +5,7 @@ def main():
     st.write('Welcome to your BacTracker App')
     st.page_link("home.py", label="Home", icon="🏠")
     st.page_link("Pages/Statistik.py", label="Statistik")
-    st.page_link("Pages/Datenbank.py", label="Datenbank")
+    st.page_link("Pages/Datenbank.py", label="Datenbank", disabled=True)
 
     if st.button("Home"):
         st.switch_page("home.py")
