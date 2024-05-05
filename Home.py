@@ -4,6 +4,10 @@ def main():
     st.title('BacTracker')
     st.write('Welcome to your BacTracker App')
 
+    # Get query parameters
+    query_params = st.experimental_get_query_params()
+    page = query_params.get("page", ["home"])[0]
+
     # Page links
     if st.button("Home"):
         st.experimental_set_query_params(page="home")
@@ -13,9 +17,6 @@ def main():
         st.experimental_set_query_params(page="datenbank")
 
     # Handle pages
-    query_params = st.query_params
-    page = query_params.get("page", ["home"])[0]
-
     if page == "home":
         st.title("Home")
         # Add content for home page
