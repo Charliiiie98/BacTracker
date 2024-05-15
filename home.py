@@ -5,8 +5,8 @@ def main():
     st.write('Welcome to your BacTracker App')
     st.image("static/bakterien.jpeg", caption="Image of bacteria", use_column_width=True)
     st.page_link("home.py", label="Home", icon="🏠")
-    st.page_link("pages/Statistik.py", label="Statistik", icon="📊")
-    st.page_link("pages/Datenbank.py", label="Datenbank")
+    st.page_link("pages/statistik.py", label="Statistik", icon="📊")
+    st.page_link("pages/datenbank.py", label="Datenbank")
 
 if __name__ == "__main__":
     main()
