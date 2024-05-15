@@ -1,5 +1,5 @@
 Wichtigste AUfgabe:
-PAGE LINK in streamlit (in VSCode hat alles gut funktioniert aber in der Streamlit Cloud nicht)
+---PAGE LINK in streamlit (in VSCode hat alles gut funktioniert aber in der Streamlit Cloud nicht)
 
 Version 1:
 Startseite mit Titel und kurzen Text
@@ -9,7 +9,7 @@ Ausrechnen von wichtigen Werten
 
 Version 2:
 DATEN SPEICHERN!!
-Bild auf Titelseite hinzufügen (bis jetzt nicht geklappt)
+---Bild auf Titelseite hinzufügen (bis jetzt nicht geklappt)
 Plot für eigene Statistik (auf gleicher page oder seperaten page muss noch definiert werden)
 
 Version 3:
