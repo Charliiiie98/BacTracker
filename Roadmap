@@ -1,11 +1,11 @@
 Wichtigste AUfgabe:
 ---PAGE LINK in streamlit (in VSCode hat alles gut funktioniert aber in der Streamlit Cloud nicht)
 
-Version 1:
-Startseite mit Titel und kurzen Text
-Versiedene Pages eingerichtet
-Funktionierende Eingabe von eigen Werte und Auflistung in einer Tabelle
-Ausrechnen von wichtigen Werten
+--Version 1:
+---Startseite mit Titel und kurzen Text
+---Versiedene Pages eingerichtet
+---Funktionierende Eingabe von eigen Werte und Auflistung in einer Tabelle
+---Ausrechnen von wichtigen Werten
 
 Version 2:
 DATEN SPEICHERN!!
