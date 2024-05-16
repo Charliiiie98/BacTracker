@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 
 st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
 
@@ -55,18 +56,29 @@ def main():
     if add_button:  
         add_entry(gattung, material, platten, pathogen)
 
-    col1, col2 = st.columns(2)
 
-    with col1:
-        st.header("Liste")
-        display_dataframe()
+    tab1, tab2 = st.tabs(["Tabelle", "Plot"])
 
-    with col2:
-        st.header("Anzahl")
-        total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
-        st.write(f"Gesamte Einträge: {total_entries}")
-        st.write(f"Anzahl Pathoge: {total_pathogenic}")
-        st.write(f"Prozentualer Anteil Pathoge: {percent_pathogenic:.2f}%")
+    with tab1:
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.header("Tabelle")
+            display_dataframe()
+
+        with col2:
+            st.header("Anzahl")
+            total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
+            st.write(f"Gesamte Einträge: {total_entries}")
+            st.write(f"Anzahl Pathoge: {total_pathogenic}")
+            st.write(f"Prozentualer Anteil Pathoge: {percent_pathogenic:.2f}%")
+
+    with tab2:
+        st.header("Plot")
+        data = {'Pathogen': ['normal Flora', '***Pathogen***'],
+            'Count': [total_entries - total_pathogenic, total_pathogenic]}
+        df_chart = pd.DataFrame(data)
+        st.bar_chart(df_chart.set_index('Pathogen'))
 
 if __name__ == "__main__":
     main()
