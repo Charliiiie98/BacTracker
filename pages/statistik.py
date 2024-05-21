@@ -75,10 +75,19 @@ def main():
 
     with tab2:
         st.header("Plot")
-        data = {'Pathogen': ['normal Flora', '***Pathogen***'],
-            'Count': [total_entries - total_pathogenic, total_pathogenic]}
-        df_chart = pd.DataFrame(data)
-        st.bar_chart(df_chart.set_index('Pathogen'))
+        plotx = st.radio("X-Achse", ["Pathogenität", "Platte", "Material"])
+
+        if plotx == "Pathogenität":
+            data = st.session_state.df["Pathogen"].value_counts().reset_index()
+            data.columns = ["Pathogenität", "Count"]
+        elif plotx == "Platte":
+            data = st.session_state.df["Platten"].value_counts().reset_index()
+            data.columns = ["Platte", "Count"]
+        elif plotx == "Material":
+            data = st.session_state.df["Material"].value_counts().reset_index()
+            data.columns = ["Material", "Count"]
+
+        st.bar_chart(data.set_index(data.columns[0]))
 
 if __name__ == "__main__":
     main()
