@@ -10,7 +10,7 @@ Wichtigste AUfgabe:
 Version 2:
 DATEN SPEICHERN!!
 ---Bild auf Titelseite hinzufügen (bis jetzt nicht geklappt)
-Plot für eigene Statistik (auf gleicher page oder seperaten page muss noch definiert werden)
+---Plot für eigene Statistik (auf gleicher page oder seperaten page muss noch definiert werden)
 
 Version 3:
 Datenbank hinzufügen (hat bis jetzt nicht geklappt)
