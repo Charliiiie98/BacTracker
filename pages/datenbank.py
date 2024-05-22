@@ -35,17 +35,16 @@ def main():
             filtered_df = filtered_df[filtered_df['Form'] == filter_option]
 
         st.write("Datenbank-Inhalt:")
-        st.write(filtered_df, show_expanded=True)  # Displaying dataframe using st.write
+        st.json(filtered_df.to_json(orient="records"))  # Convert DataFrame to JSON and display using st.json
 
     with tab2:
         st.write("Negativ Bakterien:")
         negativ_df = filtered_df[filtered_df['Gram'] == 'Negativ']
-        st.write(negativ_df, show_expanded=True)  # Displaying dataframe using st.write
+        st.json(negativ_df.to_json(orient="records"))  # Convert DataFrame to JSON and display using st.json
 
     with tab3:
         st.write("Positiv Bakterien:")
         positiv_df = filtered_df[filtered_df['Gram'] == 'Positiv']
-        st.write(positiv_df, show_expanded=True)  # Displaying dataframe using st.write
+        st.json(positiv_df.to_json(orient="records"))  # Convert DataFrame to JSON and display using st.json
 if __name__ == "__main__":
     main()
-
