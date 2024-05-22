@@ -4,6 +4,8 @@ import pandas as pd
 # Title of the web app
 st.title('Excel Datenbank Darstellung')
 
+st.set_page_config(page_title="Datenbank", page_icon="🗂️", layout="wide")
+
 # Load the Excel file
 excel_file = 'statics/bakterien.xlsx'  # Name der Excel-Datei
 sheet_name = 'bakterien'  # Name des Blatts, das du laden möchtest
