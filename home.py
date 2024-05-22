@@ -1,5 +1,6 @@
 import streamlit as st
 from st_pages import hide_pages
+from github_contents import GithubContents
 
 hide_pages(['home', 'datenbank', 'statistik'])
 def main():
