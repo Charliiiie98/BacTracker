@@ -75,17 +75,21 @@ def main_statistik():
     add_entry_in_sidebar()
     
     tab1, tab2 = st.tabs(["Tabelle", "Plot"])
+    
     with tab1:
         col1, col2 = st.columns(2)
+        
         with col1:
             st.header("Tabelle")
             display_dataframe()
+            
         with col2:
             st.header("Anzahl")
             total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
             st.write(f"Gesamte Einträge: {total_entries}")
             st.write(f"Anzahl Pathogen: {total_pathogenic}")
             st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
+            
     with tab2:
         st.header("Plot")
         plotx = st.radio("X-Achse", ["Pathogenität", "Platten", "Material"])
@@ -99,7 +103,6 @@ def main_statistik():
             data = st.session_state.df["Material"].value_counts().reset_index()
             data.columns = ["Material", "Count"]
         st.bar_chart(data.set_index(data.columns[0]))
-    display_dataframe()
 
 if __name__ == "__main__":
     main_statistik()
