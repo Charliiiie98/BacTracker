@@ -36,18 +36,17 @@ def main():
             filtered_df = filtered_df[filtered_df['Form'] == filter_option]
 
         st.write("Datenbank-Inhalt:")
-        st.markdown(filtered_df.to_markdown(index=False), unsafe_allow_html=True)  # Convert DataFrame to Markdown and render using st.markdown
+        st.markdown(filtered_df.to_html(index=False, escape=False), unsafe_allow_html=True)  # Convert DataFrame to HTML and render using st.markdown
 
     with tab2:
         st.write("Negativ Bakterien:")
         negativ_df = filtered_df[filtered_df['Gram'] == 'Negativ']
-        st.markdown(negativ_df.to_markdown(index=False), unsafe_allow_html=True)  # Convert DataFrame to Markdown and render using st.markdown
+        st.markdown(negativ_df.to_html(index=False, escape=False), unsafe_allow_html=True)  # Convert DataFrame to HTML and render using st.markdown
 
     with tab3:
         st.write("Positiv Bakterien:")
         positiv_df = filtered_df[filtered_df['Gram'] == 'Positiv']
-        st.markdown(positiv_df.to_markdown(index=False), unsafe_allow_html=True)  # Convert DataFrame to Markdown and render using st.markdown
-
+        st.markdown(positiv_df.to_html(index=False, escape=False), unsafe_allow_html=True)  # Convert DataFrame to HTML and render using st.markdown
 if __name__ == "__main__":
     main()
 
