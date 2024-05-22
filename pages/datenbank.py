@@ -35,16 +35,17 @@ def main():
             filtered_df = filtered_df[filtered_df['Form'] == filter_option]
 
         st.write("Datenbank-Inhalt:")
-        st.write(filtered_df)  # Displaying dataframe using st.write
+        st.write(filtered_df, show_expanded=True)  # Displaying dataframe using st.write
 
     with tab2:
         st.write("Negativ Bakterien:")
         negativ_df = filtered_df[filtered_df['Gram'] == 'Negativ']
-        st.write(negativ_df)  # Displaying dataframe using st.write
+        st.write(negativ_df, show_expanded=True)  # Displaying dataframe using st.write
 
     with tab3:
         st.write("Positiv Bakterien:")
         positiv_df = filtered_df[filtered_df['Gram'] == 'Positiv']
-        st.write(positiv_df)  # Displaying dataframe using st.write
+        st.write(positiv_df, show_expanded=True)  # Displaying dataframe using st.write
 if __name__ == "__main__":
     main()
+
