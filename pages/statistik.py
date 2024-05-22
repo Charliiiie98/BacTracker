@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 from funktions.github_contents import GithubContents
 
-DATA_FILE = "MyStatistikTable.csv"
-DATA_COLUMNS = ["Gattung", "Material", "Platten", "Pathogen"]
+DATA_FILE2 = "MyStatistikTable.csv"
+DATA_COLUMNS2 = ["Gattung", "Material", "Platten", "Pathogen"]
 
 st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
 
@@ -19,7 +19,7 @@ def init_dataframe():
     """Initialize or load the dataframe."""
     if 'df' in st.session_state:
         pass
-    elif st.session_state.github.file_exists(DATA_FILE):
+    elif st.session_state.github.file_exists(DATA_FILE2):
         st.session_state.df = st.session_state.github.read_df(DATA_FILE)
     else:
         st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS)
