@@ -37,20 +37,17 @@ def main():
             filtered_df = filtered_df[filtered_df['Form'] == filter_option]
 
         st.write("Datenbank-Inhalt:")
-        with st.beta_expander("Daten anzeigen", expanded=True):
-            st.write(filtered_df)
+        st.write(filtered_df, expandable=True)
 
     with tab2:
         st.write("Negativ Bakterien:")
         negativ_df = filtered_df[filtered_df['Gram'] == 'Negativ']
-        with st.beta_expander("Daten anzeigen", expanded=True):
-            st.write(negativ_df)
+        st.write(negativ_df, expandable=True)
 
     with tab3:
         st.write("Positiv Bakterien:")
         positiv_df = filtered_df[filtered_df['Gram'] == 'Positiv']
-        with st.beta_expander("Daten anzeigen", expanded=True):
-            st.write(positiv_df)
+        st.write(positiv_df, expandable=True)
 
 if __name__ == "__main__":
     main()
