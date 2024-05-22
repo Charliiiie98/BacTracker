@@ -58,11 +58,11 @@ def add_entry_in_sidebar():
             st.error(f"Failed to update GitHub repository: {e}")
 
 def display_dataframe():
-    """Display the DataFrame in the app."""
     if not st.session_state.df.empty:
-        st.dataframe(st.session_state.df)
+        st.write(st.session_state.df)  # Use st.write() instead of st.dataframe()
     else:
         st.write("Keine Daten zum Anzeigen.")
+
 
 def calculate_statistics():
     """Calculate statistics."""
