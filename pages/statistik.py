@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from st_pages import hide_pages
 
 DATA_FILE2 = "MyStatistikTable.csv"
 DATA_COLUMNS2 = ["Gattung", "Material", "Platten", "Pathogen"]
@@ -51,12 +50,8 @@ def calculate_statistics():
     percent_pathogenic = (total_pathogenic / total_entries) * 100 if total_entries > 0 else 0
     return total_entries, total_pathogenic, percent_pathogenic
 
-hide_pages(['home', 'datenbank', 'statistik'])
-
 def main_statistik():
-    st.sidebar.page_link("home.py", label="Home", icon="🏠")
-    st.sidebar.page_link("pages/statistik.py", label="Statistik", icon="📊")
-    st.sidebar.page_link("pages/datenbank.py", label="Datenbank")
+
     st.title("Statistik")
 
     init_dataframe()
