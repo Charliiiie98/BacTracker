@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from github_contents import GithubContents
 
 DATA_FILE2 = "MyStatistikTable.csv"
 DATA_COLUMNS2 = ["Gattung", "Material", "Platten", "Pathogen"]
