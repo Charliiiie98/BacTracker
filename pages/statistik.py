@@ -5,6 +5,8 @@ import numpy as np
 DATA_FILE2 = "MyStatistikTable.csv"
 DATA_COLUMNS2 = ["Gattung", "Material", "Platten", "Pathogen"]
 
+st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
+
 def init_dataframe():
     """Initialize or load the dataframe."""
     if 'df' in st.session_state:
@@ -13,9 +15,6 @@ def init_dataframe():
         st.session_state.df = st.session_state.github.read_df(DATA_FILE)
     else:
         st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS)
-
-st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
-
 
 def init_dataframe():
     """Initialize or load the dataframe."""
@@ -102,3 +101,5 @@ def main_statistik():
             data.columns = ["Material", "Count"]
 
         st.bar_chart(data.set_index(data.columns[0]))
+if __name__ == "__main_statistik__":
+        main()
