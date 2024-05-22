@@ -25,7 +25,7 @@ def main():
 
     st.title('Bakterien Datenbank')
 
-    tab1, tab2, tab3 = st.tabs(["Alle", "Negativ", "Positiv"])
+    tab1, tab2, tab3 = st.columns(3)
 
     with tab1:
         filtered_df = df.copy()
@@ -37,17 +37,20 @@ def main():
             filtered_df = filtered_df[filtered_df['Form'] == filter_option]
 
         st.write("Datenbank-Inhalt:")
-        st.write(filtered_df)
+        with st.beta_expander("Daten anzeigen", expanded=True):
+            st.write(filtered_df)
 
     with tab2:
         st.write("Negativ Bakterien:")
         negativ_df = filtered_df[filtered_df['Gram'] == 'Negativ']
-        st.write(negativ_df)
+        with st.beta_expander("Daten anzeigen", expanded=True):
+            st.write(negativ_df)
 
     with tab3:
         st.write("Positiv Bakterien:")
         positiv_df = filtered_df[filtered_df['Gram'] == 'Positiv']
-        st.write(positiv_df)
+        with st.beta_expander("Daten anzeigen", expanded=True):
+            st.write(positiv_df)
 
 if __name__ == "__main__":
     main()
