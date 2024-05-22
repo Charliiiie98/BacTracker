@@ -70,11 +70,7 @@ def calculate_statistics():
 
 def main_statistik():
     st.title("Statistik")
-    init_github()
-    init_dataframe()
-    add_entry_in_sidebar()
-    display_dataframe()
-
+    
     tab1, tab2 = st.tabs(["Tabelle", "Plot"])
     with tab1:
         col1, col2 = st.columns(2)
@@ -100,6 +96,10 @@ def main_statistik():
             data = st.session_state.df["Material"].value_counts().reset_index()
             data.columns = ["Material", "Count"]
         st.bar_chart(data.set_index(data.columns[0]))
+    init_github()
+    init_dataframe()
+    add_entry_in_sidebar()
+    display_dataframe()
 
 if __name__ == "__main__":
     main_statistik()
