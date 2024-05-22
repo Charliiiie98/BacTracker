@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+from st_pages import hide_pages
 
 DATA_FILE2 = "MyStatistikTable.csv"
 DATA_COLUMNS2 = ["Gattung", "Material", "Platten", "Pathogen"]
@@ -15,6 +16,7 @@ def init_dataframe():
         st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS)
 
 st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
+
 
 def init_dataframe():
     """Initialize or load the dataframe."""
@@ -49,7 +51,12 @@ def calculate_statistics():
     percent_pathogenic = (total_pathogenic / total_entries) * 100 if total_entries > 0 else 0
     return total_entries, total_pathogenic, percent_pathogenic
 
-def main():
+hide_pages(['home', 'datenbank', 'statistik'])
+
+def main_statistik():
+    st.sidebar.page_link("home.py", label="Home", icon="🏠")
+    st.sidebar.page_link("pages/statistik.py", label="Statistik", icon="📊")
+    st.sidebar.page_link("pages/datenbank.py", label="Datenbank")
     st.title("Statistik")
 
     init_dataframe()
@@ -100,6 +107,3 @@ def main():
             data.columns = ["Material", "Count"]
 
         st.bar_chart(data.set_index(data.columns[0]))
-
-if __name__ == "__main__":
-    main()
