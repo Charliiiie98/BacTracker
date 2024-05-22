@@ -3,7 +3,7 @@ import pandas as pd
 from funktions.github_contents import GithubContents
 
 DATA_FILE = "MyStatistikTable.csv"
-DATA_COLUMNS = ["Gattung", "Material", "Platten", "Pathogen"]
+DATA_COLUMNS = ["Gattung", "Material", "Platten", "Pathogität"]
 
 st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
 
@@ -64,7 +64,7 @@ def display_dataframe():
 def calculate_statistics():
     """Calculate statistics."""
     total_entries = len(st.session_state.df)
-    total_pathogenic = st.session_state.df['Pathogen'].value_counts().get('Pathogen', 0)
+    total_pathogenic = st.session_state.df['Pathogenität'].value_counts().get('pathogen', 0)
     percent_pathogenic = (total_pathogenic / total_entries) * 100 if total_entries > 0 else 0
     return total_entries, total_pathogenic, percent_pathogenic
 
