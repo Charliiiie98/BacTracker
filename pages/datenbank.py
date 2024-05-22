@@ -23,9 +23,7 @@ filter_option = st.sidebar.selectbox(
 )
 def main():
 
-    st.title('Bakterien Datenbank')
-
-    tab1, tab2, tab3 = st.columns(3)
+    tab1, tab2, tab3 = st.tabs(["Alle", "Negativ", "Positiv"])
 
     with tab1:
         filtered_df = df.copy()
@@ -37,17 +35,16 @@ def main():
             filtered_df = filtered_df[filtered_df['Form'] == filter_option]
 
         st.write("Datenbank-Inhalt:")
-        st.write(filtered_df, expandable=True)
+        st.dataframe(filtered_df, width=1000, height=2600)
 
     with tab2:
         st.write("Negativ Bakterien:")
         negativ_df = filtered_df[filtered_df['Gram'] == 'Negativ']
-        st.write(negativ_df, expandable=True)
+        st.dataframe(negativ_df, width=1000, height=600)
 
     with tab3:
         st.write("Positiv Bakterien:")
         positiv_df = filtered_df[filtered_df['Gram'] == 'Positiv']
-        st.write(positiv_df, expandable=True)
-
+        st.dataframe(positiv_df, width=1000, height=600)
 if __name__ == "__main__":
     main()
