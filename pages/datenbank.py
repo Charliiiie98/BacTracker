@@ -11,7 +11,7 @@ st.sidebar.page_link("pages/datenbank.py", label="Datenbank")
 st.title('Excel Datenbank Darstellung')
 
 # Load the Excel file
-excel_file = 'pages/bakterien.xlsx'  # Name der Excel-Datei
+excel_file = 'statics/bakterien.xlsx'  # Name der Excel-Datei
 sheet_name = 'bakterien'  # Name des Blatts, das du laden möchtest
 
 # Read the excel file
