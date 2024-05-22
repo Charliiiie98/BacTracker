@@ -20,9 +20,9 @@ def init_dataframe():
     if 'df' in st.session_state:
         pass
     elif st.session_state.github.file_exists(DATA_FILE2):
-        st.session_state.df = st.session_state.github.read_df(DATA_FILE)
+        st.session_state.df = st.session_state.github.read_df(DATA_FILE2)
     else:
-        st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS)
+        st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS2)
 
 def add_entry(gattung, material, platten, pathogen):
     """Add a new entry to the DataFrame using pd.concat."""
