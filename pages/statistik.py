@@ -17,23 +17,26 @@ def init_github():
 
 def init_dataframe():
     """Initialize or load the dataframe."""
-    if 'df' in st.session_state:
-        pass
-    elif st.session_state.github.file_exists(DATA_FILE):
-        st.session_state.df = st.session_state.github.read_df(DATA_FILE)
-    else:
-        st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS)
+    if 'df' not in st.session_state:
+        try:
+            if st.session_state.github.file_exists(DATA_FILE):
+                st.session_state.df = st.session_state.github.read_df(DATA_FILE)
+            else:
+                st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS)
+        except Exception as e:
+            st.error(f"Failed to load data from GitHub: {e}")
+            st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS)
 
 def add_entry_in_sidebar():
     """Add a new entry to the DataFrame using pd.concat and calculate age."""
     new_entry = {
-        DATA_COLUMNS[0]:  st.sidebar.text_input(DATA_COLUMNS[0]),  # Name
-        DATA_COLUMNS[1]:  st.sidebar.text_input(DATA_COLUMNS[1]),
-        DATA_COLUMNS[2]:  st.sidebar.selectbox(DATA_COLUMNS[2], options=["Option 1", "Option 2", "Option 3"]),
-        DATA_COLUMNS[3]: st.sidebar.radio(DATA_COLUMNS[3], options=["normal Flora", "pathogen"])
+        DATA_COLUMNS[0]: st.sidebar.text_input(DATA_COLUMNS[0]),  # Name
+        DATA_COLUMNS[1]: st.sidebar.text_input(DATA_COLUMNS[1]),
+        DATA_COLUMNS[2]: st.sidebar.selectbox(DATA_COLUMNS[2], options=["Option1", "Option2"]),  # Replace with actual options
+        DATA_COLUMNS[3]: st.sidebar.radio(DATA_COLUMNS[3], options=["normal Flora", "pathogen"]) # Replace with actual options
     }
     
-    # check wether all data is defined, otherwise show an error message
+    # Check whether all data is defined, otherwise show an error message
     for key, value in new_entry.items():
         if value == "":
             st.sidebar.error(f"Bitte ergänze das Feld '{key}'")
@@ -46,9 +49,11 @@ def add_entry_in_sidebar():
         # Save the updated DataFrame to GitHub
         name = new_entry[DATA_COLUMNS[0]]
         msg = f"Add contact '{name}' to the file {DATA_FILE}"
-        st.session_state.github.write_df(DATA_FILE, st.session_state.df, msg)
+        try:
+            st.session_state.github.write_df(DATA_FILE, st.session_state.df, msg)
+        except Exception as e:
+            st.error(f"Failed to update GitHub repository: {e}")
 
-    
 def display_dataframe():
     """Display the DataFrame in the app."""
     if not st.session_state.df.empty:
@@ -64,14 +69,11 @@ def calculate_statistics():
     return total_entries, total_pathogenic, percent_pathogenic
 
 def main_statistik():
-
     st.title("Statistik")
     init_github()
     init_dataframe()
     add_entry_in_sidebar()
     display_dataframe()
-    calculate_statistics()
-
 
     tab1, tab2 = st.tabs(["Tabelle", "Plot"])
     with tab1:
@@ -83,17 +85,17 @@ def main_statistik():
             st.header("Anzahl")
             total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
             st.write(f"Gesamte Einträge: {total_entries}")
-            st.write(f"Anzahl Pathoge: {total_pathogenic}")
-            st.write(f"Prozentualer Anteil Pathoge: {percent_pathogenic:.2f}%")
+            st.write(f"Anzahl Pathogen: {total_pathogenic}")
+            st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
     with tab2:
         st.header("Plot")
-        plotx = st.radio("X-Achse", ["Pathogenität", "Platte", "Material"])
+        plotx = st.radio("X-Achse", ["Pathogenität", "Platten", "Material"])
         if plotx == "Pathogenität":
             data = st.session_state.df["Pathogen"].value_counts().reset_index()
             data.columns = ["Pathogenität", "Count"]
-        elif plotx == "Platte":
+        elif plotx == "Platten":
             data = st.session_state.df["Platten"].value_counts().reset_index()
-            data.columns = ["Platte", "Count"]
+            data.columns = ["Platten", "Count"]
         elif plotx == "Material":
             data = st.session_state.df["Material"].value_counts().reset_index()
             data.columns = ["Material", "Count"]
@@ -101,3 +103,4 @@ def main_statistik():
 
 if __name__ == "__main__":
     main_statistik()
+
