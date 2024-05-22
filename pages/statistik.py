@@ -3,7 +3,7 @@ import pandas as pd
 from funktions.github_contents import GithubContents
 
 DATA_FILE = "MyStatistikTable.csv"
-DATA_COLUMNS = ["Gattung", "Material", "Platten", "Pathogität"]
+DATA_COLUMNS = ["Gattung", "Material", "Platten", "Pathogenität"]
 
 st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
 
