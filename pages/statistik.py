@@ -1,6 +1,19 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+from github_contents import GithubContents
+
+DATA_FILE2 = "MyStatistikTable.csv"
+DATA_COLUMNS2 = ["Gattung", "Material", "Platten", "Pathogen"]
+
+def init_dataframe():
+    """Initialize or load the dataframe."""
+    if 'df' in st.session_state:
+        pass
+    elif st.session_state.github.file_exists(DATA_FILE):
+        st.session_state.df = st.session_state.github.read_df(DATA_FILE)
+    else:
+        st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS)
 
 st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
 
