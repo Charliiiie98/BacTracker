@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
+from funktions.github_contents import GithubContents
 
+DATA_FILE = "MyStatistikTable.csv"
 DATA_COLUMNS = ["Gattung", "Material", "Platten", "Pathogen"]
 
 st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
