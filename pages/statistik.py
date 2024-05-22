@@ -26,29 +26,29 @@ def init_dataframe():
 
 def add_entry_in_sidebar():
     """Add a new entry to the DataFrame using pd.concat and calculate age."""
-    gattung = st.sidebar.text_input('Gattung')  # Gattung
-    material = st.sidebar.text_input('Material')  # Material
-    platten = st.sidebar.selectbox('Platten', ['', 'Option 1', 'Option 2', 'Option 3'])  # Platten
-    pathogen = st.sidebar.selectbox('Platten', ['', 'Option 1', 'Option 2', 'Option 3'])  # Pathogen
-    
-    if gattung.strip() == "":
-        st.sidebar.error("Bitte ergänze das Feld 'Gattung'")
-        return
-    if material.strip() == "":
-        st.sidebar.error("Bitte ergänze das Feld 'Material'")
-        return
-    if platten == "":
-        st.sidebar.error("Bitte wähle eine Option für 'Platten'")
-        return
-    
     new_entry = {
-        'Gattung': gattung,
-        'Material': material,
-        'Platten': platten,
-        'Pathogen': pathogen
+        DATA_COLUMNS[0]:  st.sidebar.text_input(DATA_COLUMNS[0]),  # Name
+        DATA_COLUMNS[1]:  st.sidebar.text_input(DATA_COLUMNS[1]),
+        DATA_COLUMNS[2]:  st.sidebar.selectbox(DATA_COLUMNS[2]),
+        DATA_COLUMNS[3]:  st.sidebar.selectbox(DATA_COLUMNS[3]), 
     }
-    st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_entry])], ignore_index=True)
+    
+    # check wether all data is defined, otherwise show an error message
+    for key, value in new_entry.items():
+        if value == "":
+            st.sidebar.error(f"Bitte ergänze das Feld '{key}'")
+            return
 
+    if st.sidebar.button("Add"):
+        new_entry_df = pd.DataFrame([new_entry])
+        st.session_state.df = pd.concat([st.session_state.df, new_entry_df], ignore_index=True)
+
+        # Save the updated DataFrame to GitHub
+        name = new_entry[DATA_COLUMNS[0]]
+        msg = f"Add contact '{name}' to the file {DATA_FILE}"
+        st.session_state.github.write_df(DATA_FILE, st.session_state.df, msg)
+
+    
 def display_dataframe():
     """Display the DataFrame in the app."""
     if not st.session_state.df.empty:
@@ -66,22 +66,13 @@ def calculate_statistics():
 def main_statistik():
 
     st.title("Statistik")
-
+    init_github()
     init_dataframe()
+    add_entry_in_sidebar()
+    display_dataframe()
+    calculate_statistics()
 
-    st.sidebar.header("Neuer Eintrag")
-    gattung = st.sidebar.text_input("Gattung")
-    material = st.sidebar.text_input("Material")
-    
-    platten_options = [""] + ["Blutagarplate", "CLED", "Hectoen", "Kochblutplatte", "Maconkey"]
-    platten = st.sidebar.selectbox("Platten", platten_options)
-    
-    pathogen = st.sidebar.radio("Pathogen", ["normal Flora", "***Pathogen***"])
-    add_button = st.sidebar.button("Hinzufügen")
 
-    if add_button:  
-        add_entry_in_sidebar(gattung, material, platten, pathogen)
-        
     tab1, tab2 = st.tabs(["Tabelle", "Plot"])
     with tab1:
         col1, col2 = st.columns(2)
