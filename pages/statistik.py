@@ -32,7 +32,7 @@ def add_entry_in_sidebar():
     new_entry = {
         DATA_COLUMNS[0]: st.sidebar.text_input(DATA_COLUMNS[0]),  # Name
         DATA_COLUMNS[1]: st.sidebar.text_input(DATA_COLUMNS[1]),
-        DATA_COLUMNS[2]: st.sidebar.selectbox(DATA_COLUMNS[2], options=["Option1", "Option2"]),  # Replace with actual options
+        DATA_COLUMNS[2]: st.sidebar.selectbox(DATA_COLUMNS[2], options=["Blutagar", "CET", "CIN", "CLED", "CNA",  "MCA", "MSA", "ALOA", "HEA"]),  # Replace with actual options
         DATA_COLUMNS[3]: st.sidebar.radio(DATA_COLUMNS[3], options=["normal Flora", "pathogen"]) # Replace with actual options
     }
     
@@ -64,7 +64,7 @@ def display_dataframe():
 def calculate_statistics():
     """Calculate statistics."""
     total_entries = len(st.session_state.df)
-    total_pathogenic = st.session_state.df['Pathogen'].value_counts().get('***Pathogen***', 0)
+    total_pathogenic = st.session_state.df['Pathogen'].value_counts().get('Pathogen', 0)
     percent_pathogenic = (total_pathogenic / total_entries) * 100 if total_entries > 0 else 0
     return total_entries, total_pathogenic, percent_pathogenic
 
