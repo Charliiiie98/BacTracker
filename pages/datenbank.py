@@ -38,17 +38,17 @@ def main():
             filtered_df = filtered_df[filtered_df['Form'] == filter_option]
 
         st.write("Datenbank-Inhalt:")
-        st.write(filtered_df, height=len(filtered_df) * 30)  # Adjust height based on dataframe length
+        st.write(filtered_df)  # Let Streamlit automatically adjust the height
 
     with tab2:
         st.write("Negativ Bakterien:")
         negativ_df = filtered_df[filtered_df['Gram'] == 'Negativ']
-        st.write(negativ_df, height=len(negativ_df) * 30)  # Adjust height based on dataframe length
+        st.write(negativ_df)  # Let Streamlit automatically adjust the height
 
     with tab3:
         st.write("Positiv Bakterien:")
         positiv_df = filtered_df[filtered_df['Gram'] == 'Positiv']
-        st.write(positiv_df, height=len(positiv_df) * 30)  # Adjust height based on dataframe length
+        st.write(positiv_df)  # Let Streamlit automatically adjust the height
 
 if __name__ == "__main__":
     main()
