@@ -24,7 +24,7 @@ filter_option = st.sidebar.radio(
 
 def main():
 
-    st.title('Excel Datenbank Darstellung')
+    st.title('Bakterien Datenbank')
 
     tab1, tab2, tab3 = st.tabs(["Alle", "Negativ", "Positiv"])
 
