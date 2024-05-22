@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 
-DATA_FILE = "MyStatistikTable.csv"
 DATA_COLUMNS = ["Gattung", "Material", "Platten", "Pathogen"]
 
 st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
@@ -60,36 +59,19 @@ def main_statistik():
         add_entry(gattung, material, platten, pathogen)
 
 
-    tab1, tab2 = st.tabs(["Tabelle", "Plot"])
+    tab1, tab2 = st.columns(2)
 
     with tab1:
-        col1, col2 = st.columns(2)
-
-        with col1:
-            st.header("Tabelle")
-            display_dataframe()
-
-        with col2:
-            st.header("Anzahl")
-            total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
-            st.write(f"Gesamte Einträge: {total_entries}")
-            st.write(f"Anzahl Pathoge: {total_pathogenic}")
-            st.write(f"Prozentualer Anteil Pathoge: {percent_pathogenic:.2f}%")
+        st.header("Tabelle")
+        display_dataframe()
 
     with tab2:
-        st.header("Plot")
-        plotx = st.radio("X-Achse", ["Pathogenität", "Platte", "Material"])
+        st.header("Anzahl")
+        total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
+        st.write(f"Gesamte Einträge: {total_entries}")
+        st.write(f"Anzahl Pathoge: {total_pathogenic}")
+        st.write(f"Prozentualer Anteil Pathoge: {percent_pathogenic:.2f}%")
 
-        if plotx == "Pathogenität":
-            data = st.session_state.df["Pathogen"].value_counts().reset_index()
-            data.columns = ["Pathogenität", "Count"]
-        elif plotx == "Platte":
-            data = st.session_state.df["Platten"].value_counts().reset_index()
-            data.columns = ["Platte", "Count"]
-        elif plotx == "Material":
-            data = st.session_state.df["Material"].value_counts().reset_index()
-            data.columns = ["Material", "Count"]
+if __name__ == "__main__":
+    main_statistik()
 
-        st.bar_chart(data.set_index(data.columns[0]))
-if __name__ == "__main_statistik__":
-        main()
