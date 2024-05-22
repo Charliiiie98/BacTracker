@@ -63,19 +63,32 @@ def main_statistik():
 
     if add_button:  
         add_entry(gattung, material, platten, pathogen)
-
-    tab1, tab2 = st.columns(2)
-
+        
+    tab1, tab2 = st.tabs(["Tabelle", "Plot"])
     with tab1:
-        st.header("Tabelle")
-        display_dataframe()
-
+        col1, col2 = st.columns(2)
+        with col1:
+            st.header("Tabelle")
+            display_dataframe()
+        with col2:
+            st.header("Anzahl")
+            total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
+            st.write(f"Gesamte Einträge: {total_entries}")
+            st.write(f"Anzahl Pathoge: {total_pathogenic}")
+            st.write(f"Prozentualer Anteil Pathoge: {percent_pathogenic:.2f}%")
     with tab2:
-        st.header("Anzahl")
-        total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
-        st.write(f"Gesamte Einträge: {total_entries}")
-        st.write(f"Anzahl Pathoge: {total_pathogenic}")
-        st.write(f"Prozentualer Anteil Pathoge: {percent_pathogenic:.2f}%")
+        st.header("Plot")
+        plotx = st.radio("X-Achse", ["Pathogenität", "Platte", "Material"])
+        if plotx == "Pathogenität":
+            data = st.session_state.df["Pathogen"].value_counts().reset_index()
+            data.columns = ["Pathogenität", "Count"]
+        elif plotx == "Platte":
+            data = st.session_state.df["Platten"].value_counts().reset_index()
+            data.columns = ["Platte", "Count"]
+        elif plotx == "Material":
+            data = st.session_state.df["Material"].value_counts().reset_index()
+            data.columns = ["Material", "Count"]
+        st.bar_chart(data.set_index(data.columns[0]))
 
 if __name__ == "__main__":
     main_statistik()
