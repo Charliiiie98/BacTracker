@@ -38,18 +38,17 @@ def main():
             filtered_df = filtered_df[filtered_df['Form'] == filter_option]
 
         st.write("Datenbank-Inhalt:")
-        st.write(filtered_df, width=1000, height=2600)  # Adjust width and height as needed
+        st.write(filtered_df)  # Let Streamlit automatically adjust the size
 
     with tab2:
         st.write("Negativ Bakterien:")
         negativ_df = filtered_df[filtered_df['Gram'] == 'Negativ']
-        st.write(negativ_df, width=1000, height=600)  # Adjust width and height as needed
+        st.write(negativ_df)  # Let Streamlit automatically adjust the size
 
     with tab3:
         st.write("Positiv Bakterien:")
         positiv_df = filtered_df[filtered_df['Gram'] == 'Positiv']
-        st.write(positiv_df, width=1000, height=600)  # Adjust width and height as needed
+        st.write(positiv_df)  # Let Streamlit automatically adjust the size
 
 if __name__ == "__main__":
     main()
-
