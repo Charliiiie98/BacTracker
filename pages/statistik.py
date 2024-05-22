@@ -29,7 +29,7 @@ def add_entry_in_sidebar():
     new_entry = {
         DATA_COLUMNS[0]:  st.sidebar.text_input(DATA_COLUMNS[0]),  # Name
         DATA_COLUMNS[1]:  st.sidebar.text_input(DATA_COLUMNS[1]),
-        DATA_COLUMNS[2]:  st.sidebar.selectbox(DATA_COLUMNS[2], options=["Option 1", "Option 2", "Option 3"])
+        DATA_COLUMNS[2]:  st.sidebar.selectbox(DATA_COLUMNS[2], options=["Option 1", "Option 2", "Option 3"]),
         DATA_COLUMNS[3]:  st.sidebar.selectbox(DATA_COLUMNS[3], options=["Option 1", "Option 2", "Option 3"]) 
     }
     
