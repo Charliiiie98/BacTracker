@@ -28,12 +28,10 @@ def init_dataframe():
             st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS)
 def add_entry_in_sidebar():
     """Add a new entry to the DataFrame using pd.concat and calculate age."""
-    pathogen_status = "Pathogen" if st.sidebar.checkbox("Pathogen", value=False) else "Normal Flora"
     new_entry = {
         DATA_COLUMNS[0]: st.sidebar.text_input(DATA_COLUMNS[0]),  # Name
         DATA_COLUMNS[1]: st.sidebar.text_input(DATA_COLUMNS[1]),
         DATA_COLUMNS[2]: st.sidebar.selectbox(DATA_COLUMNS[2], options=["", "Blutagar", "CET", "CIN", "CLED", "CNA",  "MCA", "MSA", "ALOA", "HEA"]),  # Replace with actual options
-        DATA_COLUMNS[3]: pathogen_status
     }
     
     # Check whether all data is defined, otherwise show an error message
@@ -43,6 +41,9 @@ def add_entry_in_sidebar():
             return
 
     if st.sidebar.button("Add"):
+        pathogen_status = "Pathogen" if st.sidebar.checkbox("Pathogen", value=False) else "Normal Flora"
+        new_entry[DATA_COLUMNS[3]] = pathogen_status
+
         new_entry_df = pd.DataFrame([new_entry])
         st.session_state.df = pd.concat([st.session_state.df, new_entry_df], ignore_index=True)
 
