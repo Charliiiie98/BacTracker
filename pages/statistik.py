@@ -32,7 +32,7 @@ def add_entry_in_sidebar():
     new_entry = {
         DATA_COLUMNS[0]: st.sidebar.text_input(DATA_COLUMNS[0]),  # Name
         DATA_COLUMNS[1]: st.sidebar.text_input(DATA_COLUMNS[1]),
-        DATA_COLUMNS[2]: st.sidebar.selectbox(DATA_COLUMNS[2], options=["Blutagar", "CET", "CIN", "CLED", "CNA",  "MCA", "MSA", "ALOA", "HEA"]),  # Replace with actual options
+        DATA_COLUMNS[2]: st.sidebar.selectbox(DATA_COLUMNS[2], options=["", "Blutagar", "CET", "CIN", "CLED", "CNA",  "MCA", "MSA", "ALOA", "HEA"]),  # Replace with actual options
         DATA_COLUMNS[3]: st.sidebar.radio(DATA_COLUMNS[3], options=["normal Flora", "pathogen"]) # Replace with actual options
     }
     
