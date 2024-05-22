@@ -34,14 +34,16 @@ def add_entry_in_sidebar():
         DATA_COLUMNS[2]: st.sidebar.selectbox(DATA_COLUMNS[2], options=["", "Blutagar", "CET", "CIN", "CLED", "CNA",  "MCA", "MSA", "ALOA", "HEA"]),  # Replace with actual options
     }
     
-    # Check whether all data is defined, otherwise show an error message
-    for key, value in new_entry.items():
-        if value == "":
-            st.sidebar.error(f"Bitte ergänze das Feld '{key}'")
-            return
+    pathogen_status = st.sidebar.checkbox("Pathogenität", value=False)
 
     if st.sidebar.button("Add"):
-        pathogen_status = "Pathogen" if st.sidebar.checkbox("Pathogen", value=False) else "Normal Flora"
+        # Check whether all data is defined, otherwise show an error message
+        for key, value in new_entry.items():
+            if value == "":
+                st.sidebar.error(f"Bitte ergänze das Feld '{key}'")
+                return
+
+        pathogen_status = "Pathogen" if pathogen_status else "Normal Flora"
         new_entry[DATA_COLUMNS[3]] = pathogen_status
 
         new_entry_df = pd.DataFrame([new_entry])
