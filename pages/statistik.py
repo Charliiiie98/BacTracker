@@ -64,10 +64,10 @@ def display_dataframe():
 def calculate_statistics():
     """Calculate statistics."""
     total_entries = len(st.session_state.df)
-    total_pathogenic = st.session_state.df['Pathogenität'].value_counts().get('pathogen', 0)
+    total_pathogenic = st.session_state.df['Pathogenität'].value_counts().get('pathogen', 0)  # Corrected column name here
     percent_pathogenic = (total_pathogenic / total_entries) * 100 if total_entries > 0 else 0
     return total_entries, total_pathogenic, percent_pathogenic
-
+    
 def main_statistik():
     st.title("Statistik")
     init_github()
@@ -94,7 +94,7 @@ def main_statistik():
         st.header("Plot")
         plotx = st.radio("X-Achse", ["Pathogenität", "Platten", "Material"])
         if plotx == "Pathogenität":
-            data = st.session_state.df["Pathogen"].value_counts().reset_index()
+            data = st.session_state.df["Pathogenität"].value_counts().reset_index()  # Corrected column name here
             data.columns = ["Pathogenität", "Count"]
         elif plotx == "Platten":
             data = st.session_state.df["Platten"].value_counts().reset_index()
