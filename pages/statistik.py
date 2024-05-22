@@ -33,7 +33,7 @@ def add_entry_in_sidebar():
         DATA_COLUMNS[0]: st.sidebar.text_input(DATA_COLUMNS[0]),  # Name
         DATA_COLUMNS[1]: st.sidebar.text_input(DATA_COLUMNS[1]),
         DATA_COLUMNS[2]: st.sidebar.selectbox(DATA_COLUMNS[2], options=["", "Blutagar", "CET", "CIN", "CLED", "CNA",  "MCA", "MSA", "ALOA", "HEA"]),  # Replace with actual options
-        DATA_COLUMNS[3]: st.sidebar.checkbox(DATA_COLUMNS[3], label="Pathogen", value=False) # Replace with actual options
+        DATA_COLUMNS[3]: "Pathogen" # Replace with actual options
     }
     
     # Check whether all data is defined, otherwise show an error message
