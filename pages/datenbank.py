@@ -37,26 +37,17 @@ def main():
             filtered_df = filtered_df[filtered_df['Form'] == filter_option]
 
         st.write("Datenbank-Inhalt:")
-        show_df(filtered_df)
+        st.write(filtered_df)
 
     with tab2:
         st.write("Negativ Bakterien:")
         negativ_df = filtered_df[filtered_df['Gram'] == 'Negativ']
-        show_df(negativ_df)
+        st.write(negativ_df)
 
     with tab3:
         st.write("Positiv Bakterien:")
         positiv_df = filtered_df[filtered_df['Gram'] == 'Positiv']
-        show_df(positiv_df)
-
-def show_df(df):
-    # Pagination
-    page = st.slider("Seite", 1, len(df) // 10 + 1)
-
-    start_idx = (page - 1) * 10
-    end_idx = min(len(df), start_idx + 10)
-
-    st.write(df.iloc[start_idx:end_idx])
+        st.write(positiv_df)
 
 if __name__ == "__main__":
     main()
