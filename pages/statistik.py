@@ -26,14 +26,13 @@ def init_dataframe():
         except Exception as e:
             st.error(f"Failed to load data from GitHub: {e}")
             st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS)
-
 def add_entry_in_sidebar():
     """Add a new entry to the DataFrame using pd.concat and calculate age."""
     new_entry = {
         DATA_COLUMNS[0]: st.sidebar.text_input(DATA_COLUMNS[0]),  # Name
         DATA_COLUMNS[1]: st.sidebar.text_input(DATA_COLUMNS[1]),
         DATA_COLUMNS[2]: st.sidebar.selectbox(DATA_COLUMNS[2], options=["", "Blutagar", "CET", "CIN", "CLED", "CNA",  "MCA", "MSA", "ALOA", "HEA"]),  # Replace with actual options
-        DATA_COLUMNS[3]: "Pathogen" # Replace with actual options
+        DATA_COLUMNS[3]: st.sidebar.checkbox("Pathogen", value=False)  # Manually add "Pathogen" option as a checkbox
     }
     
     # Check whether all data is defined, otherwise show an error message
