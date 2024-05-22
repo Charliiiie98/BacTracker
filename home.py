@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 from funktions.github_contents import GithubContents
 
+st.set_page_config(page_title="Home", page_icon="🏠", layout="wide")
+
 DATA_FILE = "MyLoginTable.csv"
 DATA_COLUMNS = ['username', 'name', 'password']
 
