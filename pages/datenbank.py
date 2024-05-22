@@ -1,11 +1,17 @@
 import streamlit as st
 import pandas as pd
+from st_pages import hide_pages
+
+hide_pages(['home', 'datenbank', 'statistik'])
+st.sidebar.page_link("home.py", label="Home", icon="🏠")
+st.sidebar.page_link("pages/statistik.py", label="Statistik", icon="📊")
+st.sidebar.page_link("pages/datenbank.py", label="Datenbank")
 
 # Title of the web app
 st.title('Excel Datenbank Darstellung')
 
 # Load the Excel file
-excel_file = 'statics/bakterien.xlsx'  # Name der Excel-Datei
+excel_file = 'pages/bakterien.xlsx'  # Name der Excel-Datei
 sheet_name = 'bakterien'  # Name des Blatts, das du laden möchtest
 
 # Read the excel file
