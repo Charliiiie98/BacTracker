@@ -17,11 +17,10 @@ st.sidebar.title('Such- und Filteroptionen')
 search_term = st.sidebar.text_input('Suche nach Begriff')
 
 # Filter-Optionen in der Sidebar
-filter_option = st.sidebar.radio(
+filter_option = st.sidebar.selectbox(
     'Filter nach Bakterienform',
     ('Alle', 'Stäbchen', 'Kokken', 'kokkoide Stäbchen', 'Keulenform', 'Schraubenform', 'Sporenform')
 )
-
 def main():
 
     st.title('Bakterien Datenbank')
@@ -38,18 +37,26 @@ def main():
             filtered_df = filtered_df[filtered_df['Form'] == filter_option]
 
         st.write("Datenbank-Inhalt:")
-        st.write(filtered_df)  # Let Streamlit automatically adjust the height
+        show_df(filtered_df)
 
     with tab2:
         st.write("Negativ Bakterien:")
         negativ_df = filtered_df[filtered_df['Gram'] == 'Negativ']
-        st.write(negativ_df)  # Let Streamlit automatically adjust the height
+        show_df(negativ_df)
 
     with tab3:
         st.write("Positiv Bakterien:")
         positiv_df = filtered_df[filtered_df['Gram'] == 'Positiv']
-        st.write(positiv_df)  # Let Streamlit automatically adjust the height
+        show_df(positiv_df)
+
+def show_df(df):
+    # Pagination
+    page = st.slider("Seite", 1, len(df) // 10 + 1)
+
+    start_idx = (page - 1) * 10
+    end_idx = min(len(df), start_idx + 10)
+
+    st.write(df.iloc[start_idx:end_idx])
 
 if __name__ == "__main__":
     main()
-
