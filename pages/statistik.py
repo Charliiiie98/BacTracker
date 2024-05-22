@@ -14,13 +14,13 @@ def init_dataframe():
 def add_entry(gattung, material, platten, pathogen):
     """Add a new entry to the DataFrame."""
     if gattung.strip() == "":
-        st.error("Bitte ergänze das Feld 'Gattung'")
+        st.sidebar.error("Bitte ergänze das Feld 'Gattung'")
         return
     if material.strip() == "":
-        st.error("Bitte ergänze das Feld 'Material'")
+        st.sidebar.error("Bitte ergänze das Feld 'Material'")
         return
     if platten == "":
-        st.error("Bitte wähle eine Option für 'Platten'")
+        st.sidebar.error("Bitte wähle eine Option für 'Platten'")
         return
 
     new_entry = {
@@ -51,15 +51,15 @@ def main_statistik():
 
     init_dataframe()
 
-    st.header("Neuer Eintrag")
-    gattung = st.text_input("Gattung")
-    material = st.text_input("Material")
+    st.sidebar.header("Neuer Eintrag")
+    gattung = st.sidebar.text_input("Gattung")
+    material = st.sidebar.text_input("Material")
     
     platten_options = [""] + ["Blutagarplate", "CLED", "Hectoen", "Kochblutplatte", "Maconkey"]
-    platten = st.selectbox("Platten", platten_options)
+    platten = st.sidebar.selectbox("Platten", platten_options)
     
-    pathogen = st.radio("Pathogen", ["normal Flora", "***Pathogen***"])
-    add_button = st.button("Hinzufügen")
+    pathogen = st.sidebar.radio("Pathogen", ["normal Flora", "***Pathogen***"])
+    add_button = st.sidebar.button("Hinzufügen")
 
     if add_button:  
         add_entry(gattung, material, platten, pathogen)
@@ -79,5 +79,4 @@ def main_statistik():
 
 if __name__ == "__main__":
     main_statistik()
-
 
