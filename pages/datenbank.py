@@ -1,9 +1,6 @@
 import streamlit as st
 import pandas as pd
 
-# Title of the web app
-st.title('Excel Datenbank Darstellung')
-
 st.set_page_config(page_title="Datenbank", page_icon="🗂️", layout="wide")
 
 # Load the Excel file
@@ -26,6 +23,8 @@ filter_option = st.sidebar.radio(
 )
 
 def main():
+
+    st.title('Excel Datenbank Darstellung')
 
     tab1, tab2, tab3 = st.tabs(["Alle", "Negativ", "Positiv"])
 
