@@ -1,18 +1,36 @@
 import streamlit as st
 import pandas as pd
+from funktions.github_contents import GithubContents
 
 DATA_FILE = "MyStatistikTable.csv"
 DATA_COLUMNS = ["Gattung", "Material", "Platten", "Pathogen"]
 
 st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
 
+def init_github():
+    """Initialize the GithubContents object."""
+    if 'github' not in st.session_state:
+        st.session_state.github = GithubContents(
+            st.secrets["github"]["owner"],
+            st.secrets["github"]["repo"],
+            st.secrets["github"]["token"])
+
 def init_dataframe():
     """Initialize or load the dataframe."""
-    if 'df' not in st.session_state:
+    if 'df' in st.session_state:
+        pass
+    elif st.session_state.github.file_exists(DATA_FILE):
+        st.session_state.df = st.session_state.github.read_df(DATA_FILE)
+    else:
         st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS)
 
-def add_entry(gattung, material, platten, pathogen):
-    """Add a new entry to the DataFrame."""
+def add_entry_in_sidebar():
+    """Add a new entry to the DataFrame using pd.concat and calculate age."""
+    gattung = st.sidebar.text_input('Gattung')  # Gattung
+    material = st.sidebar.text_input('Material')  # Material
+    platten = st.sidebar.selectbox('Platten', ['', 'Option 1', 'Option 2', 'Option 3'])  # Platten
+    pathogen = st.sidebar.selectbox('Platten', ['', 'Option 1', 'Option 2', 'Option 3'])  # Pathogen
+    
     if gattung.strip() == "":
         st.sidebar.error("Bitte ergänze das Feld 'Gattung'")
         return
@@ -22,7 +40,7 @@ def add_entry(gattung, material, platten, pathogen):
     if platten == "":
         st.sidebar.error("Bitte wähle eine Option für 'Platten'")
         return
-
+    
     new_entry = {
         'Gattung': gattung,
         'Material': material,
@@ -62,7 +80,7 @@ def main_statistik():
     add_button = st.sidebar.button("Hinzufügen")
 
     if add_button:  
-        add_entry(gattung, material, platten, pathogen)
+        add_entry_in_sidebar(gattung, material, platten, pathogen)
         
     tab1, tab2 = st.tabs(["Tabelle", "Plot"])
     with tab1:
@@ -92,4 +110,3 @@ def main_statistik():
 
 if __name__ == "__main__":
     main_statistik()
-
