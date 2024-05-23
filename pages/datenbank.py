@@ -31,8 +31,6 @@ characterization_options = ['Katalase +', 'Oxidase +', 'Lac +', 'Koagulase +', '
 selected_characterizations = st.sidebar.multiselect('Filter nach Charakterisierung', characterization_options)
 
 def main():
-    # Debug: Ensure the selected characterizations are being captured
-    st.write("Selected characterizations: ", selected_characterizations)
 
     tab1, tab2, tab3 = st.tabs(["Alle", "Negativ", "Positiv"])
 
