@@ -43,9 +43,9 @@ def main():
             filtered_df = filtered_df[filtered_df['Form'] == filter_option]
 
         # Apply characterizations filter
-        if selected_characterizations:
+        if selected_charakterisierung:
             filtered_df = filtered_df[filtered_df['Charakterisierung'].apply(
-                lambda x: all(char in x for char in selected_characterizations))]
+                lambda x: all(char in x for char in selected_charakterisierung))]
 
         st.write("Datenbank-Inhalt:")
         st.markdown(filtered_df.to_html(index=False, escape=False), unsafe_allow_html=True)  # Convert DataFrame to HTML and render using st.markdown
