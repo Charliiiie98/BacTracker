@@ -10,6 +10,9 @@ sheet_name = 'bakterien'  # Name des Blatts, das du laden möchtest
 # Read the excel file
 df = pd.read_excel(excel_file, sheet_name=sheet_name)
 
+# Debug: Print the columns of the DataFrame
+st.write("Columns in the DataFrame:", df.columns.tolist())
+
 # Sidebar für Suchfunktion und Filter
 st.sidebar.title('Such- und Filteroptionen')
 
@@ -22,12 +25,14 @@ filter_option = st.sidebar.selectbox(
     ('Alle', 'Stäbchen', 'Kokken', 'kokkoide Stäbchen', 'Keulenform', 'Schraubenform', 'Sporenform')
 )
 
-# Multiselect for charakterisierung in the sidebar
-charakterisierung_options = ['Katalase +', 'Oxidase +', 'Lac +', 'Koagulase +', 'α-Hämolye', 'β-Hämolye',
+# Multiselect for characterizations in the sidebar
+characterization_options = ['Katalase +', 'Oxidase +', 'Lac +', 'Koagulase +', 'α-Hämolye', 'β-Hämolye',
                             'Katalase -', 'Oxidase -', 'Lac -', 'Koagulase -']
-selected_charakterisierung = st.sidebar.multiselect('Filter nach Charakterisierung', charakterisierung_options)
+selected_characterizations = st.sidebar.multiselect('Filter nach Charakterisierung', characterization_options)
 
 def main():
+    # Debug: Ensure the selected characterizations are being captured
+    st.write("Selected characterizations: ", selected_characterizations)
 
     tab1, tab2, tab3 = st.tabs(["Alle", "Negativ", "Positiv"])
 
@@ -43,9 +48,9 @@ def main():
             filtered_df = filtered_df[filtered_df['Form'] == filter_option]
 
         # Apply characterizations filter
-        if selected_charakterisierung:
-            filtered_df = filtered_df[filtered_df['Charakterisierung'].apply(
-                lambda x: all(char in x for char in selected_charakterisierung))]
+        if selected_characterizations:
+            filtered_df = filtered_df[filtered_df['Charakerisierung'].apply(
+                lambda x: all(char in x for char in selected_characterizations) if isinstance(x, str) else False)]
 
         st.write("Datenbank-Inhalt:")
         st.markdown(filtered_df.to_html(index=False, escape=False), unsafe_allow_html=True)  # Convert DataFrame to HTML and render using st.markdown
@@ -62,5 +67,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
