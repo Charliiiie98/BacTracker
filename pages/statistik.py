@@ -197,7 +197,7 @@ def main_statistik():
         if plotx == "Pathogenität":
             data = st.session_state.df["Pathogenität"].value_counts().reset_index()  # Corrected column name here
             data.columns = ["Pathogenität", "Count"]
-@@ -42,8 +188,6 @@ def main_statistik():
+def main_statistik():
             data = st.session_state.df["Material"].value_counts().reset_index()
             data.columns = ["Material", "Count"]
         st.bar_chart(data.set_index(data.columns[0]))
