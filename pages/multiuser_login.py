@@ -1,28 +1,21 @@
 import binascii
 import streamlit as st
 import pandas as pd
+from funktions.github_contents import GithubContents
 import bcrypt
-from github_contents import GithubContents
 
-# Constants
+# Set constants
 DATA_FILE = "MyLoginTable.csv"
 DATA_COLUMNS = ['username', 'name', 'password']
-
-def show():
-    st.title("Login/Register")
-
-def Login():
-    st.image("Logo.jpeg", width=600)
 
 def login_page():
     """ Login an existing user. """
     st.title("Login")
     with st.form(key='login_form'):
-        username = st.text_input("Username")
+        st.session_state['username'] = st.text_input("Username")
         password = st.text_input("Password", type="password")
         if st.form_submit_button("Login"):
-            authenticate(username, password)
-            st.switch_page("pages/attack.py")
+            authenticate(st.session_state.username, password)
 
 def register_page():
     """ Register a new user. """
@@ -32,9 +25,10 @@ def register_page():
         new_name = st.text_input("Name")
         new_password = st.text_input("New Password", type="password")
         if st.form_submit_button("Register"):
-            hashed_password = bcrypt.hashpw(new_password.encode('utf8'), bcrypt.gensalt())  # Hash the password
-            hashed_password_hex = binascii.hexlify(hashed_password).decode()  # Convert hash to hexadecimal string
+            hashed_password = bcrypt.hashpw(new_password.encode('utf8'), bcrypt.gensalt()) # Hash the password
+            hashed_password_hex = binascii.hexlify(hashed_password).decode() # Convert hash to hexadecimal string
             
+            # Check if the username already exists
             if new_username in st.session_state.df_users['username'].values:
                 st.error("Username already exists. Please choose a different one.")
                 return
@@ -45,29 +39,27 @@ def register_page():
                 # Writes the updated dataframe to GitHub data repository
                 st.session_state.github.write_df(DATA_FILE, st.session_state.df_users, "added new user")
                 st.success("Registration successful! You can now log in.")
-                st.switch_page("pages/attack.py")
 
 def authenticate(username, password):
-    """
-    Authenticate the user.
+    """ 
+    Initialize the authentication status.
 
     Parameters:
     username (str): The username to authenticate.
-    password (str): The password to authenticate.
+    password (str): The password to authenticate.    
     """
     login_df = st.session_state.df_users
     login_df['username'] = login_df['username'].astype(str)
 
     if username in login_df['username'].values:
         stored_hashed_password = login_df.loc[login_df['username'] == username, 'password'].values[0]
-        stored_hashed_password_bytes = binascii.unhexlify(stored_hashed_password)  # Convert hex to bytes
+        stored_hashed_password_bytes = binascii.unhexlify(stored_hashed_password) # convert hex to bytes
         
+        # Check the input password
         if bcrypt.checkpw(password.encode('utf8'), stored_hashed_password_bytes): 
             st.session_state['authentication'] = True
-            st.session_state['username'] = username
             st.success('Login successful')
-            st.switch_page("pages/attack.py")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error('Incorrect password')
     else:
@@ -84,15 +76,18 @@ def init_github():
     
 def init_credentials():
     """Initialize or load the dataframe."""
-    if 'df_users' not in st.session_state:
-        if st.session_state.github.file_exists(DATA_FILE):
-            st.session_state.df_users = st.session_state.github.read_df(DATA_FILE)
-        else:
-            st.session_state.df_users = pd.DataFrame(columns=DATA_COLUMNS)
+    if 'df_users' in st.session_state:
+        pass
+
+    if st.session_state.github.file_exists(DATA_FILE):
+        st.session_state.df_users = st.session_state.github.read_df(DATA_FILE)
+    else:
+        st.session_state.df_users = pd.DataFrame(columns=DATA_COLUMNS)
+
 
 def main():
-    init_github()
-    init_credentials()
+    init_github() # Initialize the GithubContents object
+    init_credentials() # Loads the credentials from the Github data repository
 
     if 'authentication' not in st.session_state:
         st.session_state['authentication'] = False
@@ -103,17 +98,9 @@ def main():
             login_page()
         elif options == "Register":
             register_page()
-    else:
-        logout_button = st.button("Logout")
-        if logout_button:
-            st.session_state['authentication'] = False
-            st.experimental_rerun()
 
-def switch_page(page_name):
-    st.success(f"Redirecting to {page_name.replace('_', ' ')} page...")
-    time.sleep(3)
-    st.experimental_set_query_params(page=page_name)
-    st.experimental_rerun()
+    else:
+        st.page_link('pages/statistik.py')
 
 if __name__ == "__main__":
     main()
