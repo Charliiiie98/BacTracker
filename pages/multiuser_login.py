@@ -101,6 +101,10 @@ def main():
 
     else:
         st.page_link('pages/statistik.py')
+                logout_button = st.button("Logout")
+        if logout_button:
+            st.session_state['authentication'] = False
+            st.rerun()
 
 if __name__ == "__main__":
     main()
