@@ -22,10 +22,10 @@ filter_option = st.sidebar.selectbox(
     ('Alle', 'Stäbchen', 'Kokken', 'kokkoide Stäbchen', 'Keulenform', 'Schraubenform', 'Sporenform')
 )
 
-# Multiselect for characterizations in the sidebar
-characterization_options = ['Katalase +', 'Oxidase +', 'Lac +', 'Koagulase +', 'α-Hämolye', 'β-Hämolye',
+# Multiselect for charakterisierung in the sidebar
+charakterisierung_options = ['Katalase +', 'Oxidase +', 'Lac +', 'Koagulase +', 'α-Hämolye', 'β-Hämolye',
                             'Katalase -', 'Oxidase -', 'Lac -', 'Koagulase -']
-selected_characterizations = st.sidebar.multiselect('Filter nach Charakterisierung', characterization_options)
+selected_charakterisierung = st.sidebar.multiselect('Filter nach Charakterisierung', charakterisierung_options)
 
 def main():
 
@@ -44,8 +44,8 @@ def main():
 
         # Apply characterizations filter
         if selected_characterizations:
-            for char in selected_characterizations:
-                filtered_df = filtered_df[filtered_df[char] == True]
+            filtered_df = filtered_df[filtered_df['Charakterisierung'].apply(
+                lambda x: all(char in x for char in selected_characterizations))]
 
         st.write("Datenbank-Inhalt:")
         st.markdown(filtered_df.to_html(index=False, escape=False), unsafe_allow_html=True)  # Convert DataFrame to HTML and render using st.markdown
