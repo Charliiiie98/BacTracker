@@ -10,9 +10,6 @@ sheet_name = 'bakterien'  # Name des Blatts, das du laden möchtest
 # Read the excel file
 df = pd.read_excel(excel_file, sheet_name=sheet_name)
 
-# Debug: Print the columns of the DataFrame
-st.write("Columns in the DataFrame:", df.columns.tolist())
-
 # Sidebar für Suchfunktion und Filter
 st.sidebar.title('Such- und Filteroptionen')
 
@@ -31,7 +28,6 @@ characterization_options = ['Katalase +', 'Oxidase +', 'Lac +', 'Koagulase +', '
 selected_characterizations = st.sidebar.multiselect('Filter nach Charakterisierung', characterization_options)
 
 def main():
-
     tab1, tab2, tab3 = st.tabs(["Alle", "Negativ", "Positiv"])
 
     with tab1:
@@ -47,8 +43,12 @@ def main():
 
         # Apply characterizations filter
         if selected_characterizations:
-            filtered_df = filtered_df[filtered_df['Charakerisierung'].apply(
-                lambda x: all(char in x for char in selected_characterizations) if isinstance(x, str) else False)]
+            filtered_df = filtered_df[
+                filtered_df.apply(
+                    lambda row: all(char in ' '.join([str(row['Charakerisierung']), str(row['Charakerisierung2']), str(row['Charakerisierung3'])]) for char in selected_characterizations), 
+                    axis=1
+                )
+            ]
 
         st.write("Datenbank-Inhalt:")
         st.markdown(filtered_df.to_html(index=False, escape=False), unsafe_allow_html=True)  # Convert DataFrame to HTML and render using st.markdown
@@ -65,4 +65,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
