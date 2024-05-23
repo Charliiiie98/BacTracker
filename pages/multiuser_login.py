@@ -99,12 +99,12 @@ def main():
         elif options == "Register":
             register_page()
 
-else:
-    st.experimental_set_query_params(page='statistik')  # Set the page parameter to 'statistik'
-    logout_button = st.button("Logout")
-    if logout_button:
-        st.session_state['authentication'] = False
-        st.experimental_rerun()  # Rerun the app with the new query parameter
+    else:
+        st.experimental_set_query_params(page='statistik')  # Set the page parameter to 'statistik'
+        logout_button = st.button("Logout")
+        if logout_button:
+            st.session_state['authentication'] = False
+            st.experimental_rerun()  # Rerun the app with the new query parameter
 
 
 if __name__ == "__main__":
