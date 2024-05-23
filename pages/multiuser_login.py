@@ -109,3 +109,30 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Import Streamlit
+import streamlit as st
+
+# Check if the user is authenticated
+if not st.session_state.get('authentication'):
+    username = st.text_input('Username')
+    password = st.text_input('Password', type='password')
+    if st.button('Login'):
+        # Check credentials and set authentication status
+        if username == 'your_username' and password == 'your_password':
+            st.session_state['authentication'] = True
+            st.experimental_set_query_params(page='statistik')  # Set the page parameter to 'statistik'
+            st.experimental_rerun()  # Rerun the app with the new query parameter
+        else:
+            st.error('Invalid credentials. Please try again.')
+
+# Sidebar
+st.sidebar.title('Sidebar')
+if st.session_state.get('authentication'):
+    logout_button = st.sidebar.button("Logout")
+
+# Handle logout
+if st.session_state.get('authentication') and logout_button:
+    st.session_state['authentication'] = False
+    st.experimental_rerun()  # Rerun the app to update the UI after logout
+
