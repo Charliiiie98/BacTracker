@@ -2,3 +2,4 @@ pandas
 requests
 openpyxl
 funktions.github_contents
+bcrypt
