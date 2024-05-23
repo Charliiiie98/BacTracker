@@ -172,7 +172,7 @@ def main_statistik():
     with tab2:
         st.header("Anzahl")
         if not st.session_state.df.empty:  # Check if the dataframe is not empty
-        col1, col2 = st.columns(2)
+            col1, col2 = st.columns(2)
 
         with col1:
             st.header("Tabelle")
