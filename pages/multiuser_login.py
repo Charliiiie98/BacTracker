@@ -101,8 +101,7 @@ def main():
 
     else:
         st.experimental_set_query_params(page='statistik')  # Set the page parameter to 'statistik'
-        logout_button = st.button("Logout")
-        if logout_button:
+        if st.sidebar.button("Logout"):
             st.session_state['authentication'] = False
             st.experimental_rerun()  # Rerun the app with the new query parameter
 
