@@ -151,7 +151,7 @@ def display_dataframe():
 def calculate_statistics():
     """Calculate statistics."""
     total_entries = len(st.session_state.df)
-    total_pathogenic = st.session_state.df['Pathogenität'].value_counts().get('pathogen', 0)  # Corrected column name here
+    total_pathogenic = st.session_state.df['Pathogenität'].value_counts().get('Pathogen', 0)  # Corrected column name here
     percent_pathogenic = (total_pathogenic / total_entries) * 100 if total_entries > 0 else 0
     return total_entries, total_pathogenic, percent_pathogenic
     
