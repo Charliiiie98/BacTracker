@@ -85,50 +85,16 @@ def init_credentials():
         else:
             st.session_state.df_users = pd.DataFrame(columns=DATA_COLUMNS)
 
-def main_statistik():
-    st.title("Statistik")
-    init_github()
-    init_credentials()
-    
-    if not st.session_state['authentication']:
-        login_page()
-        return
-    
-    # Rest of your existing code for the statistics page
-    init_dataframe()
-    add_entry_in_sidebar()
-    
-    tab1, tab2 = st.tabs(["Tabelle", "Plot"])
-    
-    with tab1:
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.header("Tabelle")
-            display_dataframe()
-            
-        with col2:
-            st.header("Anzahl")
-            total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
-            st.write(f"Gesamte Einträge: {total_entries}")
-            st.write(f"Anzahl Pathogen: {total_pathogenic}")
-            st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
-            
-    with tab2:
-        st.header("Plot")
-        plotx = st.radio("X-Achse", ["Pathogenität", "Platten", "Material"])
-        if plotx == "Pathogenität":
-            data = st.session_state.df["Pathogenität"].value_counts().reset_index()  # Corrected column name here
-            data.columns = ["Pathogenität", "Count"]
-        elif plotx == "Platten":
-            data = st.session_state.df["Platten"].value_counts().reset_index()
-            data.columns = ["Platten", "Count"]
-        elif plotx == "Material":
-            data = st.session_state.df["Material"].value_counts().reset_index()
-            data.columns = ["Material", "Count"]
-        st.bar_chart(data.set_index(data.columns[0]))
+def init_dataframe():
+    """Initialize or load the dataframe."""
+    if 'df' not in st.session_state:
+        try:
+            if st.session_state.github.file_exists(DATA_FILE):
+                st.session_state.df = st.session_state.github.read_df(DATA_FILE)
+            else:
+                st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS)
+        except Exception as e:
+            st.error(f"Failed to load data from GitHub: {e}")
+            st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS)
 
-if __name__ == "__main__":
-    main_statistik()
-
-
+# Other functions and main_statistik remain the same
