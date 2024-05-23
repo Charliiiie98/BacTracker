@@ -28,6 +28,9 @@ characterization_options = ['Katalase +', 'Oxidase +', 'Lac +', 'Koagulase +', '
 selected_characterizations = st.sidebar.multiselect('Filter nach Charakterisierung', characterization_options)
 
 def main():
+    # Title of the web app
+    st.title('Bakterien Datenbank')
+    
     tab1, tab2, tab3 = st.tabs(["Alle", "Negativ", "Positiv"])
 
     with tab1:
