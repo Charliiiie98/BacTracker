@@ -1,20 +1,3 @@
-##############################################################################################################
-# Title: Multi-User Login and Registration Example
-# Author: Samuel Wehrli, Dominik Kunz
-# Date: 05.05.2024
-# Institution: ZHAW - Institute for Computational Health
-#
-# Description: 
-# A Streamlit app that allows multiple users to login and register. 
-# The app uses a CSV file to store user credentials and pushes it to a seperate Github repository. 
-# The bcrypt library hashes the passwords and the binascii library to convert the hashed password to 
-# a hexadecimal string. The app uses the GithubContents class from the github_contents.py file to 
-# interact with the Github data repository. The st.secrets object stores the Github owner, repository, 
-# and token which are used to authenticate the Github data repository.
-#
-# To run the app, install the required libraries using: pip install bcrypt binascii
-##############################################################################################################
-
 
 import binascii
 import streamlit as st
@@ -118,12 +101,7 @@ def main():
             register_page()
 
     else:
-        #replace the code bellow with your own code or switch to another page
-        st.success(f"Hurray {st.session_state['username']}!! You are logged in.", icon="🤩")
-        logout_button = st.button("Logout")
-        if logout_button:
-            st.session_state['authentication'] = False
-            st.rerun()
+        st.page_link('pages/statistik.py')
 
 if __name__ == "__main__":
     main()
