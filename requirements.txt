@@ -1,4 +1,4 @@
 pandas
 requests
 openpyxl
-git+https://github.com/username/repo_name.git#egg=github_contents
+github_contents
