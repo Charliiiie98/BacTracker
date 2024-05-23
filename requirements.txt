@@ -1,5 +1,4 @@
 pandas
 requests
 openpyxl
-# If installing from a GitHub repository
 git+https://github.com/username/repo_name.git#egg=github_contents
