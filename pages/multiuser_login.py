@@ -28,36 +28,6 @@ def register_page():
             hashed_password = bcrypt.hashpw(new_password.encode('utf8'), bcrypt.gensalt()) # Hash the password
             hashed_password_hex = binascii.hexlify(hashed_password).decode() # Convert hash to hexadecimal string
             
-            # Check ifimport binascii
-import streamlit as st
-import pandas as pd
-from funktions.github_contents import GithubContents
-import bcrypt
-
-# Set constants
-DATA_FILE = "MyLoginTable.csv"
-DATA_COLUMNS = ['username', 'name', 'password']
-
-def login_page():
-    """ Login an existing user. """
-    st.title("Login")
-    with st.form(key='login_form'):
-        st.session_state['username'] = st.text_input("Username")
-        password = st.text_input("Password", type="password")
-        if st.form_submit_button("Login"):
-            authenticate(st.session_state.username, password)
-
-def register_page():
-    """ Register a new user. """
-    st.title("Register")
-    with st.form(key='register_form'):
-        new_username = st.text_input("New Username")
-        new_name = st.text_input("Name")
-        new_password = st.text_input("New Password", type="password")
-        if st.form_submit_button("Register"):
-            hashed_password = bcrypt.hashpw(new_password.encode('utf8'), bcrypt.gensalt()) # Hash the password
-            hashed_password_hex = binascii.hexlify(hashed_password).decode() # Convert hash to hexadecimal string
-            
             # Check if the username already exists
             if new_username in st.session_state.df_users['username'].values:
                 st.error("Username already exists. Please choose a different one.")
@@ -131,12 +101,11 @@ def main():
 
     else:
         st.experimental_set_query_params(page='statistik')  # Set the page parameter to 'statistik'
-        if st.sidebar.button("Logout"):
+        logout_button = st.button("Logout")
+        if logout_button:
             st.session_state['authentication'] = False
             st.experimental_rerun()  # Rerun the app with the new query parameter
 
 
 if __name__ == "__main__":
     main()
-
-
