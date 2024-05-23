@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from io import StringIO
 
 st.set_page_config(page_title="Datenbank", page_icon="🗂️", layout="wide")
 
@@ -23,6 +22,7 @@ filter_option = st.sidebar.selectbox(
     ('Alle', 'Stäbchen', 'Kokken', 'kokkoide Stäbchen', 'Keulenform', 'Schraubenform', 'Sporenform')
 )
 
+# Multiselect for characterizations in the sidebar
 characterization_options = ['Katalase +', 'Oxidase +', 'Lac +', 'Koagulase +', 'α-Hämolye', 'β-Hämolye',
                             'Katalase -', 'Oxidase -', 'Lac -', 'Koagulase -']
 selected_characterizations = st.sidebar.multiselect('Filter nach Charakterisierung', characterization_options)
@@ -34,11 +34,18 @@ def main():
     with tab1:
         filtered_df = df.copy()
 
+        # Apply search term filter
         if search_term:
             filtered_df = filtered_df[filtered_df.apply(lambda row: row.astype(str).str.contains(search_term, case=False).any(), axis=1)]
 
+        # Apply bacteria form filter
         if filter_option != 'Alle':
             filtered_df = filtered_df[filtered_df['Form'] == filter_option]
+
+        # Apply characterizations filter
+        if selected_characterizations:
+            for char in selected_characterizations:
+                filtered_df = filtered_df[filtered_df[char] == True]
 
         st.write("Datenbank-Inhalt:")
         st.markdown(filtered_df.to_html(index=False, escape=False), unsafe_allow_html=True)  # Convert DataFrame to HTML and render using st.markdown
@@ -52,6 +59,8 @@ def main():
         st.write("Positiv Bakterien:")
         positiv_df = filtered_df[filtered_df['Gram'] == 'Positiv']
         st.markdown(positiv_df.to_html(index=False, escape=False), unsafe_allow_html=True)  # Convert DataFrame to HTML and render using st.markdown
+
 if __name__ == "__main__":
     main()
+
 
