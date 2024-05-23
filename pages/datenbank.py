@@ -22,6 +22,11 @@ filter_option = st.sidebar.selectbox(
     'Filter nach Bakterienform',
     ('Alle', 'Stäbchen', 'Kokken', 'kokkoide Stäbchen', 'Keulenform', 'Schraubenform', 'Sporenform')
 )
+
+characterization_options = ['Katalase +', 'Oxidase +', 'Lac +', 'Koagulase +', 'α-Hämolye', 'β-Hämolye',
+                            'Katalase -', 'Oxidase -', 'Lac -', 'Koagulase -']
+selected_characterizations = st.sidebar.multiselect('Filter nach Charakterisierung', characterization_options)
+
 def main():
 
     tab1, tab2, tab3 = st.tabs(["Alle", "Negativ", "Positiv"])
