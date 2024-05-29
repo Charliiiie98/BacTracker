@@ -151,25 +151,43 @@ def main_statistik():
     """Main function for the statistik page."""
     if 'authentication' not in st.session_state or not st.session_state['authentication']:
         st.error("Please log in to access this page.")
+        login_page()
         return
-
+    
     st.title("Statistik")
     init_github()
     init_dataframe()
     add_entry_in_sidebar()
     
-    tab1, tab2 = st.columns(2)
+    tab1, tab2 = st.tabs(["Tabelle", "Plot"])
     
     with tab1:
-        st.header("Tabelle")
-        display_dataframe()
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.header("Tabelle")
+            display_dataframe()
+            
+        with col2:
+            st.header("Anzahl")
+            total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
+            st.write(f"Gesamte Einträge: {total_entries}")
+            st.write(f"Anzahl Pathogen: {total_pathogenic}")
+            st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
             
     with tab2:
-        st.header("Anzahl")
-        total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
-        st.write(f"Gesamte Einträge: {total_entries}")
-        st.write(f"Anzahl Pathogen: {total_pathogenic}")
-        st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
+        st.header("Plot")
+        plotx = st.radio("X-Achse", ["Pathogenität", "Platten", "Material"])
+        if plotx == "Pathogenität":
+            data = st.session_state.df["Pathogenität"].value_counts().reset_index()  # Corrected column name here
+            data.columns = ["Pathogenität", "Count"]
+        elif plotx == "Platten":
+            data = st.session_state.df["Platten"].value_counts().reset_index()
+            data.columns = ["Platten", "Count"]
+        elif plotx == "Material":
+            data = st.session_state.df["Material"].value_counts().reset_index()
+            data.columns = ["Material", "Count"]
+        st.bar_chart(data.set_index(data.columns[0]))
 
 def main():
     init_github()
