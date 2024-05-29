@@ -5,14 +5,19 @@ import bcrypt
 from funktions.github_contents import GithubContents
 
 # Constants
-DATA_FILE = "MyLoginTable.csv"
-DATA_COLUMNS = ['username', 'name', 'password']
+DATA_FILE_USERS = "MyLoginTable.csv"
+DATA_FILE_STATS = "MyStatistikTable.csv"
+USER_DATA_COLUMNS = ['username', 'name', 'password']
+STAT_DATA_COLUMNS = ["Gattung", "Material", "Platten", "Pathogenität"]
+
+# Streamlit configuration
+st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
 
 def show():
     st.title("Login/Register")
 
 def login_page():
-    """ Login an existing user. """
+    """Login an existing user."""
     st.title("Login")
     with st.form(key='login_form'):
         username = st.text_input("Username")
@@ -21,7 +26,7 @@ def login_page():
             authenticate(username, password)
 
 def register_page():
-    """ Register a new user. """
+    """Register a new user."""
     st.title("Register")
     with st.form(key='register_form'):
         new_username = st.text_input("New Username")
@@ -36,21 +41,15 @@ def register_page():
                 st.error("Username already exists. Please choose a different one.")
                 return
             else:
-                new_user = pd.DataFrame([[new_username, new_name, hashed_password_hex]], columns=DATA_COLUMNS)
+                new_user = pd.DataFrame([[new_username, new_name, hashed_password_hex]], columns=USER_DATA_COLUMNS)
                 st.session_state.df_users = pd.concat([st.session_state.df_users, new_user], ignore_index=True)
                 
                 # Writes the updated dataframe to GitHub data repository
-                st.session_state.github.write_df(DATA_FILE, st.session_state.df_users, "added new user")
+                st.session_state.github.write_df(DATA_FILE_USERS, st.session_state.df_users, "added new user")
                 st.success("Registration successful! You can now log in.")
 
 def authenticate(username, password):
-    """
-    Authenticate the user.
-
-    Parameters:
-    username (str): The username to authenticate.
-    password (str): The password to authenticate.
-    """
+    """Authenticate the user."""
     login_df = st.session_state.df_users
     login_df['username'] = login_df['username'].astype(str)
 
@@ -76,46 +75,33 @@ def init_github():
             st.secrets["github"]["owner"],
             st.secrets["github"]["repo"],
             st.secrets["github"]["token"])
-        print("github initialized")
-    
+
 def init_credentials():
-    """Initialize or load the dataframe."""
+    """Initialize or load the user dataframe."""
     if 'df_users' not in st.session_state:
-        if st.session_state.github.file_exists(DATA_FILE):
-            st.session_state.df_users = st.session_state.github.read_df(DATA_FILE)
+        if st.session_state.github.file_exists(DATA_FILE_USERS):
+            st.session_state.df_users = st.session_state.github.read_df(DATA_FILE_USERS)
         else:
-            st.session_state.df_users = pd.DataFrame(columns=DATA_COLUMNS)
-
-DATA_FILE = "MyStatistikTable.csv"
-DATA_COLUMNS = ["Gattung", "Material", "Platten", "Pathogenität"]
-
-st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
-
-def init_github():
-    """Initialize the GithubContents object."""
-    if 'github' not in st.session_state:
-        st.session_state.github = GithubContents(
-            st.secrets["github"]["owner"],
-            st.secrets["github"]["repo"],
-            st.secrets["github"]["token"])
+            st.session_state.df_users = pd.DataFrame(columns=USER_DATA_COLUMNS)
 
 def init_dataframe():
-    """Initialize or load the dataframe."""
+    """Initialize or load the statistic dataframe."""
     if 'df' not in st.session_state:
         try:
-            if st.session_state.github.file_exists(DATA_FILE):
-                st.session_state.df = st.session_state.github.read_df(DATA_FILE)
+            if st.session_state.github.file_exists(DATA_FILE_STATS):
+                st.session_state.df = st.session_state.github.read_df(DATA_FILE_STATS)
             else:
-                st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS)
+                st.session_state.df = pd.DataFrame(columns=STAT_DATA_COLUMNS)
         except Exception as e:
             st.error(f"Failed to load data from GitHub: {e}")
-            st.session_state.df = pd.DataFrame(columns=DATA_COLUMNS)
+            st.session_state.df = pd.DataFrame(columns=STAT_DATA_COLUMNS)
+
 def add_entry_in_sidebar():
     """Add a new entry to the DataFrame using pd.concat and calculate age."""
     new_entry = {
-        DATA_COLUMNS[0]: st.sidebar.text_input(DATA_COLUMNS[0]),  # Name
-        DATA_COLUMNS[1]: st.sidebar.text_input(DATA_COLUMNS[1]),
-        DATA_COLUMNS[2]: st.sidebar.selectbox(DATA_COLUMNS[2], options=["", "Blutagar", "CET", "CIN", "CLED", "CNA",  "MCA", "MSA", "ALOA", "HEA"]),  # Replace with actual options
+        STAT_DATA_COLUMNS[0]: st.sidebar.text_input(STAT_DATA_COLUMNS[0]),  # Name
+        STAT_DATA_COLUMNS[1]: st.sidebar.text_input(STAT_DATA_COLUMNS[1]),
+        STAT_DATA_COLUMNS[2]: st.sidebar.selectbox(STAT_DATA_COLUMNS[2], options=["", "Blutagar", "CET", "CIN", "CLED", "CNA",  "MCA", "MSA", "ALOA", "HEA"]),  # Replace with actual options
     }
     
     pathogen_status = st.sidebar.checkbox("Pathogenität", value=False)
@@ -128,16 +114,16 @@ def add_entry_in_sidebar():
                 return
 
         pathogen_status = "Pathogen" if pathogen_status else "Normal Flora"
-        new_entry[DATA_COLUMNS[3]] = pathogen_status
+        new_entry[STAT_DATA_COLUMNS[3]] = pathogen_status
 
         new_entry_df = pd.DataFrame([new_entry])
         st.session_state.df = pd.concat([st.session_state.df, new_entry_df], ignore_index=True)
 
         # Save the updated DataFrame to GitHub
-        name = new_entry[DATA_COLUMNS[0]]
-        msg = f"Add contact '{name}' to the file {DATA_FILE}"
+        name = new_entry[STAT_DATA_COLUMNS[0]]
+        msg = f"Add contact '{name}' to the file {DATA_FILE_STATS}"
         try:
-            st.session_state.github.write_df(DATA_FILE, st.session_state.df, msg)
+            st.session_state.github.write_df(DATA_FILE_STATS, st.session_state.df, msg)
         except Exception as e:
             st.error(f"Failed to update GitHub repository: {e}")
 
@@ -147,15 +133,20 @@ def display_dataframe():
     else:
         st.write("Keine Daten zum Anzeigen.")
 
-
 def calculate_statistics():
     """Calculate statistics."""
     total_entries = len(st.session_state.df)
     total_pathogenic = st.session_state.df['Pathogenität'].value_counts().get('Pathogen', 0)  # Corrected column name here
     percent_pathogenic = (total_pathogenic / total_entries) * 100 if total_entries > 0 else 0
     return total_entries, total_pathogenic, percent_pathogenic
-    
+
 def main_statistik():
+    """Main function for the statistik page."""
+    if 'authentication' not in st.session_state or not st.session_state['authentication']:
+        st.error("Please log in to access this page.")
+        login_page()
+        return
+    
     st.title("Statistik")
     init_github()
     init_dataframe()
@@ -191,5 +182,19 @@ def main_statistik():
             data.columns = ["Material", "Count"]
         st.bar_chart(data.set_index(data.columns[0]))
 
+def main():
+    init_github()
+    init_credentials()
+
+    if 'authentication' not in st.session_state or not st.session_state['authentication']:
+        st.sidebar.title("Authentication")
+        page = st.sidebar.radio("Go to", ["Login", "Register"])
+        if page == "Login":
+            login_page()
+        else:
+            register_page()
+    else:
+        main_statistik()
+
 if __name__ == "__main__":
-    main_statistik()
+    main()
