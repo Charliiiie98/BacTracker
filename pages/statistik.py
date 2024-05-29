@@ -13,6 +13,26 @@ STAT_DATA_COLUMNS = ["Gattung", "Material", "Platten", "Pathogenität"]
 # Streamlit configuration
 st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
 
+def authenticate(username, password):
+    """Authenticate the user."""
+    login_df = st.session_state.df_users
+    login_df['username'] = login_df['username'].astype(str)
+
+    if username in login_df['username'].values:
+        stored_hashed_password = login_df.loc[login_df['username'] == username, 'password'].values[0]
+        stored_hashed_password_bytes = binascii.unhexlify(stored_hashed_password)
+        
+        # Check the input password
+        if bcrypt.checkpw(password.encode('utf8'), stored_hashed_password_bytes): 
+            st.session_state['authentication'] = True
+            st.session_state['username'] = username
+            st.success('Login successful')
+            st.experimental_rerun()
+        else:
+            st.error('Incorrect password')
+    else:
+        st.error('Username not found')
+
 def login_page():
     """Login an existing user."""
     st.title("Login")
@@ -44,26 +64,6 @@ def register_page():
                 # Writes the updated dataframe to GitHub data repository
                 st.session_state.github.write_df(DATA_FILE_USERS, st.session_state.df_users, "added new user")
                 st.success("Registration successful! You can now log in.")
-
-def authenticate(username, password):
-    """Authenticate the user."""
-    login_df = st.session_state.df_users
-    login_df['username'] = login_df['username'].astype(str)
-
-    if username in login_df['username'].values:
-        stored_hashed_password = login_df.loc[login_df['username'] == username, 'password'].values[0]
-        stored_hashed_password_bytes = binascii.unhexlify(stored_hashed_password)
-        
-        # Check the input password
-        if bcrypt.checkpw(password.encode('utf8'), stored_hashed_password_bytes): 
-            st.session_state['authentication'] = True
-            st.session_state['username'] = username
-            st.success('Login successful')
-            st.experimental_rerun()
-        else:
-            st.error('Incorrect password')
-    else:
-        st.error('Username not found')
 
 def init_github():
     """Initialize the GithubContents object."""
