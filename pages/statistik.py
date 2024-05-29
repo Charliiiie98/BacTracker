@@ -112,6 +112,9 @@ def add_entry_in_sidebar():
 
         pathogen_status = "Pathogen" if pathogen_status else "Normal Flora"
         new_entry[STAT_DATA_COLUMNS[3]] = pathogen_status
+        
+        # Add the 'username' column with the current user's username
+        new_entry['username'] = st.session_state['username']
 
         new_entry_df = pd.DataFrame([new_entry])
         st.session_state.df = pd.concat([st.session_state.df, new_entry_df], ignore_index=True)
