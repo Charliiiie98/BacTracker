@@ -36,8 +36,8 @@ def login_page():
     """Login an existing user."""
     st.title("Login")
     with st.form(key='login_form'):
-        username = st.text_input("Username")
-        password = st.text_input("Password", type="password")
+        username = st.text_input("Username", key="login_username")
+        password = st.text_input("Password", type="password", key="login_password")
         if st.form_submit_button("Login"):
             authenticate(username, password)
 
@@ -45,9 +45,9 @@ def register_page():
     """Register a new user."""
     st.title("Register")
     with st.form(key='register_form'):
-        new_username = st.text_input("New Username")
-        new_name = st.text_input("Name")
-        new_password = st.text_input("New Password", type="password")
+        new_username = st.text_input("New Username", key="register_username")
+        new_name = st.text_input("Name", key="register_name")
+        new_password = st.text_input("New Password", type="password", key="register_password")
         if st.form_submit_button("Register"):
             hashed_password = bcrypt.hashpw(new_password.encode('utf8'), bcrypt.gensalt())
             hashed_password_hex = binascii.hexlify(hashed_password).decode()
@@ -94,8 +94,9 @@ def add_entry_in_sidebar():
     """Add a new entry to the DataFrame."""
     new_entry = {}
     for i, column in enumerate(STAT_DATA_COLUMNS):
-        unique_key = f"{column}_{i}"
-        new_entry[column] = st.sidebar.text_input(column, key=unique_key)
+        unique_key = f"{column}_{i}_entry"
+        if column != 'username':
+            new_entry[column] = st.sidebar.text_input(column, key=unique_key)
     
     pathogen_status = st.sidebar.checkbox("Pathogenität", value=False, key="pathogen_status")
 
@@ -176,8 +177,8 @@ def main():
 
     if not st.session_state['authentication']:
         st.sidebar.title("Authentication")
-        login_button = st.sidebar.button("Login")
-        register_button = st.sidebar.button("Register")
+        login_button = st.sidebar.button("Login", key="login_button")
+        register_button = st.sidebar.button("Register", key="register_button")
 
         if login_button:
             st.session_state['current_page'] = "Login"
