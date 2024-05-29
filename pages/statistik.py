@@ -188,13 +188,27 @@ def main():
 
     if 'authentication' not in st.session_state or not st.session_state['authentication']:
         st.sidebar.title("Authentication")
-        page = st.sidebar.radio("Go to", ["Login", "Register"])
-        if page == "Login":
-            login_page()
-        else:
-            register_page()
+        login_button = st.sidebar.button("Login")
+        register_button = st.sidebar.button("Register")
+
+        # Check which button is pressed
+        if login_button:
+            st.session_state['current_page'] = "Login"
+        elif register_button:
+            st.session_state['current_page'] = "Register"
+
+        # Display the appropriate page
+        if 'current_page' in st.session_state:
+            if st.session_state['current_page'] == "Login":
+                login_page()
+            elif st.session_state['current_page'] == "Register":
+                register_page()
     else:
         main_statistik()
+
+if __name__ == "__main__":
+    main()
+
 
 if __name__ == "__main__":
     main()
