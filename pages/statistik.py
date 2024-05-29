@@ -96,9 +96,9 @@ def init_dataframe():
 def add_entry_in_sidebar():
     """Add a new entry to the DataFrame using pd.concat and calculate age."""
     new_entry = {
-        STAT_DATA_COLUMNS[0]: st.sidebar.text_input(STAT_DATA_COLUMNS[0]),  
-        STAT_DATA_COLUMNS[1]: st.sidebar.text_input(STAT_DATA_COLUMNS[1]),
-        STAT_DATA_COLUMNS[2]: st.sidebar.selectbox(STAT_DATA_COLUMNS[2], options=["", "Blutagar", "CET", "CIN", "CLED", "CNA",  "MCA", "MSA", "ALOA", "HEA"]),  # Replace with actual options
+        STAT_DATA_COLUMNS[0]: st.sidebar.text_input(STAT_DATA_COLUMNS[0],key=0),  
+        STAT_DATA_COLUMNS[1]: st.sidebar.text_input(STAT_DATA_COLUMNS[1], key=1),
+        STAT_DATA_COLUMNS[2]: st.sidebar.selectbox(STAT_DATA_COLUMNS[2], options=["", "Blutagar", "CET", "CIN", "CLED", "CNA",  "MCA", "MSA", "ALOA", "HEA"], key=2),  # Replace with actual options
     }
     
     pathogen_status = st.sidebar.checkbox("Pathogenität", value=False)
