@@ -8,7 +8,7 @@ from funktions.github_contents import GithubContents
 DATA_FILE_USERS = "MyLoginTable.csv"
 DATA_FILE_STATS = "MyStatistikTable.csv"
 USER_DATA_COLUMNS = ['username', 'name', 'password']
-STAT_DATA_COLUMNS = ["Gattung", "Material", "Platten", "Pathogenität"]
+STAT_DATA_COLUMNS = ["Gattung", "Material", "Platten", "Pathogenität", 'username']
 
 # Streamlit configuration
 st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
@@ -126,9 +126,18 @@ def add_entry_in_sidebar():
 
 def display_dataframe():
     if not st.session_state.df.empty:
-        st.write(st.session_state.df)  # Use st.write() instead of st.dataframe()
+        # Filter the DataFrame based on the current user's username
+        username = st.session_state.get('username')
+        user_entries = st.session_state.df[st.session_state.df['username'] == username]
+        if not user_entries.empty:
+            # Exclude the 'username' column from the displayed DataFrame
+            user_entries_without_username = user_entries.drop(columns=['username'])
+            st.write(user_entries_without_username)
+        else:
+            st.write("You have not added any entries yet.")
     else:
-        st.write("Keine Daten zum Anzeigen.")
+        st.write("No data to display.")
+
 
 def calculate_statistics():
     """Calculate statistics."""
