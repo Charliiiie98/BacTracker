@@ -126,6 +126,7 @@ def add_entry_in_sidebar():
             st.error(f"Failed to update GitHub repository: {e}")
 
 def display_dataframe():
+    """Display the DataFrame for the authenticated user."""
     if not st.session_state.df.empty:
         username = st.session_state.get('username')
         if 'username' in st.session_state.df.columns:
@@ -147,15 +148,32 @@ def calculate_statistics():
     percent_pathogenic = (total_pathogenic / total_entries) * 100 if total_entries > 0 else 0
     return total_entries, total_pathogenic, percent_pathogenic
 
-def main_statistik():
-    """Main function for the statistik page."""
-    if 'authentication' not in st.session_state or not st.session_state['authentication']:
-        st.error("Please log in to access this page.")
-        login_page()
+def main():
+    """Main function to control the app flow."""
+    init_github()
+    init_credentials()
+
+    if 'authentication' not in st.session_state:
+        st.session_state['authentication'] = False
+
+    if not st.session_state['authentication']:
+        st.sidebar.title("Authentication")
+        login_button = st.sidebar.button("Login", key="login_button")
+        register_button = st.sidebar.button("Register", key="register_button")
+
+        if login_button:
+            st.session_state['current_page'] = "Login"
+        elif register_button:
+            st.session_state['current_page'] = "Register"
+
+        if 'current_page' in st.session_state:
+            if st.session_state['current_page'] == "Login":
+                login_page()
+            elif st.session_state['current_page'] == "Register":
+                register_page()
         return
     
     st.title("Statistik")
-    init_github()
     init_dataframe()
     add_entry_in_sidebar()
     
@@ -179,7 +197,7 @@ def main_statistik():
         st.header("Plot")
         plotx = st.radio("X-Achse", ["Pathogenität", "Platten", "Material"])
         if plotx == "Pathogenität":
-            data = st.session_state.df["Pathogenität"].value_counts().reset_index()  # Corrected column name here
+            data = st.session_state.df["Pathogenität"].value_counts().reset_index()
             data.columns = ["Pathogenität", "Count"]
         elif plotx == "Platten":
             data = st.session_state.df["Platten"].value_counts().reset_index()
@@ -188,34 +206,8 @@ def main_statistik():
             data = st.session_state.df["Material"].value_counts().reset_index()
             data.columns = ["Material", "Count"]
         st.bar_chart(data.set_index(data.columns[0]))
-if __name__ == "__main__":
-    main_statistik()
-
-def main():
-    init_github()
-    init_credentials()
-
-    if 'authentication' not in st.session_state:
-        st.session_state['authentication'] = False
-
-    if not st.session_state['authentication']:
-        st.sidebar.title("Authentication")
-        login_button = st.sidebar.button("Login", key="login_button")
-        register_button = st.sidebar.button("Register", key="register_button")
-
-        if login_button:
-            st.session_state['current_page'] = "Login"
-        elif register_button:
-            st.session_state['current_page'] = "Register"
-
-        if 'current_page' in st.session_state:
-            if st.session_state['current_page'] == "Login":
-                login_page()
-            elif st.session_state['current_page'] == "Register":
-                register_page()
-    else:
-        main_statistik()
 
 if __name__ == "__main__":
     main()
+
 
