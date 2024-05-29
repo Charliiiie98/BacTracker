@@ -94,28 +94,26 @@ def add_entry_in_sidebar():
     """Add a new entry to the DataFrame."""
     new_entry = {}
     for i, column in enumerate(STAT_DATA_COLUMNS):
-        if i == 2:  # Skip the third column (selectbox), as it already has a unique key
-            continue
-        new_entry[column] = st.sidebar.text_input(column, key=i)
+        unique_key = f"{column}_{i}"
+        new_entry[column] = st.sidebar.text_input(column, key=unique_key)
     
-    pathogen_status = st.sidebar.checkbox("Pathogenität", value=False)
+    pathogen_status = st.sidebar.checkbox("Pathogenität", value=False, key="pathogen_status")
 
-    if st.sidebar.button("Add"):
+    if st.sidebar.button("Add", key="add_button"):
         for key, value in new_entry.items():
             if value == "":
                 st.sidebar.error(f"Bitte ergänze das Feld '{key}'")
                 return
 
         pathogen_status = "Pathogen" if pathogen_status else "Normal Flora"
-        new_entry[STAT_DATA_COLUMNS[3]] = pathogen_status
-        
+        new_entry['Pathogenität'] = pathogen_status
         new_entry['username'] = st.session_state['username']
 
         new_entry_df = pd.DataFrame([new_entry])
         st.session_state.df = pd.concat([st.session_state.df, new_entry_df], ignore_index=True)
 
         name = new_entry[STAT_DATA_COLUMNS[0]]
-        msg = f"Add contact '{name}' to the file {DATA_FILE_STATS}"
+        msg = f"Add entry '{name}' to the file {DATA_FILE_STATS}"
         try:
             st.session_state.github.write_df(DATA_FILE_STATS, st.session_state.df, msg)
         except Exception as e:
