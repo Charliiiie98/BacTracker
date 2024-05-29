@@ -91,11 +91,16 @@ def main():
 
     if not st.session_state['authentication']:
         st.sidebar.title("Navigation")
-        if st.sidebar.button("Login"):
+        login_button = st.sidebar.button("Login")
+        register_button = st.sidebar.button("Register")
+
+        # Check which button is pressed
+        if login_button:
             st.session_state['current_page'] = "Login"
-        elif st.sidebar.button("Register"):
+        elif register_button:
             st.session_state['current_page'] = "Register"
 
+        # Display the appropriate page
         if 'current_page' in st.session_state:
             if st.session_state['current_page'] == "Login":
                 login_page()
@@ -106,6 +111,10 @@ def main():
         if st.sidebar.button("Logout"):
             st.session_state['authentication'] = False
             st.experimental_rerun()  # Rerun the app with the new query parameter
+
+if __name__ == "__main__":
+    main()
+
 
 if __name__ == "__main__":
     main()
