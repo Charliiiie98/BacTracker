@@ -13,9 +13,6 @@ STAT_DATA_COLUMNS = ["Gattung", "Material", "Platten", "Pathogenität"]
 # Streamlit configuration
 st.set_page_config(page_title="Statistik", page_icon="📊", layout="wide")
 
-def show():
-    st.title("Login/Register")
-
 def login_page():
     """Login an existing user."""
     st.title("Login")
@@ -144,9 +141,8 @@ def main_statistik():
     """Main function for the statistik page."""
     if 'authentication' not in st.session_state or not st.session_state['authentication']:
         st.error("Please log in to access this page.")
-        login_page()
         return
-    
+
     st.title("Statistik")
     init_github()
     init_dataframe()
@@ -186,7 +182,10 @@ def main():
     init_github()
     init_credentials()
 
-    if 'authentication' not in st.session_state or not st.session_state['authentication']:
+    if 'authentication' not in st.session_state:
+        st.session_state['authentication'] = False
+
+    if not st.session_state['authentication']:
         st.sidebar.title("Authentication")
         login_button = st.sidebar.button("Login")
         register_button = st.sidebar.button("Register")
