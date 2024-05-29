@@ -38,7 +38,7 @@ def login_page():
     with st.form(key='login_form'):
         username = st.text_input("Username", key="login_username")
         password = st.text_input("Password", type="password", key="login_password")
-        if st.form_submit_button("Login"):
+        if st.form_submit_button("Login", key="login_submit"):
             authenticate(username, password)
 
 def register_page():
@@ -48,7 +48,7 @@ def register_page():
         new_username = st.text_input("New Username", key="register_username")
         new_name = st.text_input("Name", key="register_name")
         new_password = st.text_input("New Password", type="password", key="register_password")
-        if st.form_submit_button("Register"):
+        if st.form_submit_button("Register", key="register_submit"):
             hashed_password = bcrypt.hashpw(new_password.encode('utf8'), bcrypt.gensalt())
             hashed_password_hex = binascii.hexlify(hashed_password).decode()
             
@@ -165,8 +165,6 @@ def main_statistik():
         st.write(f"Gesamte Einträge: {total_entries}")
         st.write(f"Anzahl Pathogen: {total_pathogenic}")
         st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
-if __name__ == "__main__":
-    main_statistik()
 
 def main():
     init_github()
