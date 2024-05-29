@@ -97,8 +97,11 @@ def add_entry_in_sidebar():
     new_entry = {}
     for i, column in enumerate(STAT_DATA_COLUMNS):
         unique_key = f"{column}_{i}_entry"
-        if column != 'username':
-            new_entry[column] = st.sidebar.text_input(column, key=unique_key)
+        if column != 'username' and column != 'Pathogenität':
+            if column == 'Platten':
+                new_entry[column] = st.sidebar.selectbox(column, options=["Option 1", "Option 2", "Option 3"], key=unique_key)
+            else:
+                new_entry[column] = st.sidebar.text_input(column, key=unique_key)
     
     pathogen_status = st.sidebar.checkbox("Pathogenität", value=False, key="pathogen_status")
 
@@ -195,3 +198,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
