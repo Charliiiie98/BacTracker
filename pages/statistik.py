@@ -166,6 +166,8 @@ def main_statistik():
         st.write(f"Gesamte Einträge: {total_entries}")
         st.write(f"Anzahl Pathogen: {total_pathogenic}")
         st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
+if __name__ == "__main__":
+    main_statistik()
 
 def main():
     init_github()
