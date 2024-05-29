@@ -22,7 +22,6 @@ def authenticate(username, password):
         stored_hashed_password = login_df.loc[login_df['username'] == username, 'password'].values[0]
         stored_hashed_password_bytes = binascii.unhexlify(stored_hashed_password)
         
-        # Check the input password
         if bcrypt.checkpw(password.encode('utf8'), stored_hashed_password_bytes): 
             st.session_state['authentication'] = True
             st.session_state['username'] = username
@@ -53,7 +52,6 @@ def register_page():
             hashed_password = bcrypt.hashpw(new_password.encode('utf8'), bcrypt.gensalt())
             hashed_password_hex = binascii.hexlify(hashed_password).decode()
             
-            # Check if the username already exists
             if new_username in st.session_state.df_users['username'].values:
                 st.error("Username already exists. Please choose a different one.")
                 return
@@ -61,7 +59,6 @@ def register_page():
                 new_user = pd.DataFrame([[new_username, new_name, hashed_password_hex]], columns=USER_DATA_COLUMNS)
                 st.session_state.df_users = pd.concat([st.session_state.df_users, new_user], ignore_index=True)
                 
-                # Writes the updated dataframe to GitHub data repository
                 st.session_state.github.write_df(DATA_FILE_USERS, st.session_state.df_users, "added new user")
                 st.success("Registration successful! You can now log in.")
 
@@ -94,7 +91,7 @@ def init_dataframe():
             st.session_state.df = pd.DataFrame(columns=STAT_DATA_COLUMNS)
 
 def add_entry_in_sidebar():
-    """Add a new entry to the DataFrame using pd.concat and calculate age."""
+    """Add a new entry to the DataFrame."""
     new_entry = {}
     for i, column in enumerate(STAT_DATA_COLUMNS):
         if i == 2:  # Skip the third column (selectbox), as it already has a unique key
@@ -104,7 +101,6 @@ def add_entry_in_sidebar():
     pathogen_status = st.sidebar.checkbox("Pathogenität", value=False)
 
     if st.sidebar.button("Add"):
-        # Check whether all data is defined, otherwise show an error message
         for key, value in new_entry.items():
             if value == "":
                 st.sidebar.error(f"Bitte ergänze das Feld '{key}'")
@@ -113,13 +109,11 @@ def add_entry_in_sidebar():
         pathogen_status = "Pathogen" if pathogen_status else "Normal Flora"
         new_entry[STAT_DATA_COLUMNS[3]] = pathogen_status
         
-        # Add the 'username' column with the current user's username
         new_entry['username'] = st.session_state['username']
 
         new_entry_df = pd.DataFrame([new_entry])
         st.session_state.df = pd.concat([st.session_state.df, new_entry_df], ignore_index=True)
 
-        # Save the updated DataFrame to GitHub
         name = new_entry[STAT_DATA_COLUMNS[0]]
         msg = f"Add contact '{name}' to the file {DATA_FILE_STATS}"
         try:
@@ -129,23 +123,23 @@ def add_entry_in_sidebar():
 
 def display_dataframe():
     if not st.session_state.df.empty:
-        # Filter the DataFrame based on the current user's username
         username = st.session_state.get('username')
-        user_entries = st.session_state.df[st.session_state.df['username'] == username]
-        if not user_entries.empty:
-            # Exclude the 'username' column from the displayed DataFrame
-            user_entries_without_username = user_entries.drop(columns=['username'])
-            st.write(user_entries_without_username)
+        if 'username' in st.session_state.df.columns:
+            user_entries = st.session_state.df[st.session_state.df['username'] == username]
+            if not user_entries.empty:
+                user_entries_without_username = user_entries.drop(columns=['username'])
+                st.write(user_entries_without_username)
+            else:
+                st.write("You have not added any entries yet.")
         else:
-            st.write("You have not added any entries yet.")
+            st.error("The 'username' column does not exist in the DataFrame.")
     else:
         st.write("No data to display.")
-
 
 def calculate_statistics():
     """Calculate statistics."""
     total_entries = len(st.session_state.df)
-    total_pathogenic = st.session_state.df['Pathogenität'].value_counts().get('Pathogen', 0)  # Corrected column name here
+    total_pathogenic = st.session_state.df['Pathogenität'].value_counts().get('Pathogen', 0)
     percent_pathogenic = (total_pathogenic / total_entries) * 100 if total_entries > 0 else 0
     return total_entries, total_pathogenic, percent_pathogenic
 
@@ -185,13 +179,11 @@ def main():
         login_button = st.sidebar.button("Login")
         register_button = st.sidebar.button("Register")
 
-        # Check which button is pressed
         if login_button:
             st.session_state['current_page'] = "Login"
         elif register_button:
             st.session_state['current_page'] = "Register"
 
-        # Display the appropriate page
         if 'current_page' in st.session_state:
             if st.session_state['current_page'] == "Login":
                 login_page()
