@@ -172,7 +172,6 @@ def main_statistik():
         st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
 
 def main():
-    init_github()
     init_credentials()
 
     if 'authentication' not in st.session_state:
