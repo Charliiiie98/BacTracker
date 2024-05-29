@@ -59,7 +59,7 @@ def authenticate(username, password):
         if bcrypt.checkpw(password.encode('utf8'), stored_hashed_password_bytes): 
             st.session_state['authentication'] = True
             st.success('Login successful')
-            st.rerun()
+            st.experimental_rerun()
         else:
             st.error('Incorrect password')
     else:
@@ -76,14 +76,11 @@ def init_github():
     
 def init_credentials():
     """Initialize or load the dataframe."""
-    if 'df_users' in st.session_state:
-        pass
-
-    if st.session_state.github.file_exists(DATA_FILE):
-        st.session_state.df_users = st.session_state.github.read_df(DATA_FILE)
-    else:
-        st.session_state.df_users = pd.DataFrame(columns=DATA_COLUMNS)
-
+    if 'df_users' not in st.session_state:
+        if st.session_state.github.file_exists(DATA_FILE):
+            st.session_state.df_users = st.session_state.github.read_df(DATA_FILE)
+        else:
+            st.session_state.df_users = pd.DataFrame(columns=DATA_COLUMNS)
 
 def main():
     init_github() # Initialize the GithubContents object
@@ -93,18 +90,22 @@ def main():
         st.session_state['authentication'] = False
 
     if not st.session_state['authentication']:
-        options = st.sidebar.ratio("Select a page", ["Login", "Register"])
-        if options == "Login":
-            login_page()
-        elif options == "Register":
-            register_page()
+        st.sidebar.title("Navigation")
+        if st.sidebar.button("Login"):
+            st.session_state['current_page'] = "Login"
+        elif st.sidebar.button("Register"):
+            st.session_state['current_page'] = "Register"
 
+        if 'current_page' in st.session_state:
+            if st.session_state['current_page'] == "Login":
+                login_page()
+            elif st.session_state['current_page'] == "Register":
+                register_page()
     else:
         st.experimental_set_query_params(page='statistik')  # Set the page parameter to 'statistik'
         if st.sidebar.button("Logout"):
             st.session_state['authentication'] = False
             st.experimental_rerun()  # Rerun the app with the new query parameter
-
 
 if __name__ == "__main__":
     main()
