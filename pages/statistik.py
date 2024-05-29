@@ -177,6 +177,8 @@ def main_statistik():
             data = st.session_state.df["Material"].value_counts().reset_index()
             data.columns = ["Material", "Count"]
         st.bar_chart(data.set_index(data.columns[0]))
+if __name__ == "__main__":
+    main_statistik()
 
 def main():
     init_github()
