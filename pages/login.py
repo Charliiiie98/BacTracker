@@ -93,7 +93,7 @@ def main():
         st.session_state['authentication'] = False
 
     if not st.session_state['authentication']:
-        options = st.sidebar.selectbox("Select a page", ["Login", "Register"])
+        options = st.sidebar.ratio("Select a page", ["Login", "Register"])
         if options == "Login":
             login_page()
         elif options == "Register":
