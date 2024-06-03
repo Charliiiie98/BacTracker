@@ -8,24 +8,29 @@ sheet_name = 'bakterien'  # Name des Blatts, das du laden möchtest
 
 df = pd.read_excel(excel_file, sheet_name=sheet_name)
 
-st.sidebar.title('Such- und Filteroptionen')
+def sidebar():
+    st.sidebar.title('Such- und Filteroptionen')
 
-search_term = st.sidebar.text_input('Suche nach Begriff')
+    search_term = st.sidebar.text_input('Suche nach Begriff')
 
-filter_option = st.sidebar.selectbox(
-    'Filter nach Bakterienform',
-    ('Alle', 'Kokken', 'kokkoide Stäbchen', 'Keulenform', 'nicht einteilbar' 'Schraubenform', 'Sporenform', 'Stäbchen')
-)
+    filter_option = st.sidebar.selectbox(
+        'Filter nach Bakterienform',
+        ('Alle', 'Kokken', 'kokkoide Stäbchen', 'Keulenform', 'nicht einteilbar', 'Schraubenform', 'Sporenform', 'Stäbchen')
+    )
 
-characterization_options = ['Katalase +', 'Oxidase +', 'Lac +', 'Koagulase +', 'α-Hämolye', 'β-Hämolye',
-                            'Katalase -', 'Oxidase -', 'Lac -', 'Koagulase -']
-selected_characterizations = st.sidebar.multiselect('Filter nach Charakterisierung', characterization_options)
+    characterization_options = ['Katalase +', 'Oxidase +', 'Lac +', 'Koagulase +', 'α-Hämolye', 'β-Hämolye',
+                                'Katalase -', 'Oxidase -', 'Lac -', 'Koagulase -']
+    selected_characterizations = st.sidebar.multiselect('Filter nach Charakterisierung', characterization_options)
+
+    return search_term, filter_option, selected_characterizations
 
 def main():
     # Title of the web app
     st.title('Bakterien Datenbank')
     
     tab1, tab2, tab3 = st.tabs(["Alle", "Negativ", "Positiv"])
+
+    search_term, filter_option, selected_characterizations = sidebar()
 
     with tab1:
         filtered_df = df.copy()
@@ -62,5 +67,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
