@@ -2,3 +2,4 @@ pandas
 requests
 openpyxl
 bcrypt
+st_pages
