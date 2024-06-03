@@ -182,7 +182,6 @@ def main():
                 login_page()
             elif st.session_state['current_page'] == "Register":
                 register_page()
-        return
     
     st.sidebar.title("Navigation")
     add_entry_in_sidebar()
