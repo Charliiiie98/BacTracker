@@ -19,13 +19,13 @@ def sidebar():
         ('Alle', 'Kokken', 'kokkoide Stäbchen', 'Keulenform', 'nicht einteilbar', 'Schraubenform', 'Sporenform', 'Stäbchen')
     )
 
-    characterization_options = ['α-Hämolyse', 'β-Hämolyse', 'Aesculin +' 'CAMP +', 'Gas +', 'Halbsäurefest', 'Hippurat +', 'Indol +',
+    charakteristik_options = ['α-Hämolyse', 'β-Hämolyse', 'Aesculin +' 'CAMP +', 'Gas +', 'Halbsäurefest', 'Hippurat +', 'Indol +',
                                 'Kapsel', 'Katalase +', 'Katalase -', 'Koagulase +', 'Koagulase -', 'KOH +', 'Kultur', 'Lac +', 'Lac -',
                                 'nicht kultivierbar', 'Oxidase +', 'Oxidase -', 'PCR', ' Pyr +', 'Säurefest', 'Serologie', 'Urease +']
     
-    selected_characterizations = st.sidebar.multiselect('Filter nach Charakteristik', characterization_options)
+    selected_charakteristik = st.sidebar.multiselect('Filter nach Charakteristik', charakteristik_options)
 
-    return search_term, form_option, selected_characterizations
+    return search_term, form_option, selected_charakteristik
     
 hide_pages(['login'])
 
@@ -35,7 +35,7 @@ def main():
     
     tab1, tab2, tab3 = st.tabs(["Alle", "Negativ", "Positiv"])
 
-    search_term, form_option, selected_characterizations = sidebar()
+    search_term, form_option, selected_charakteristik = sidebar()
 
     with tab1:
         filtered_df = df.copy()
@@ -49,7 +49,7 @@ def main():
             filtered_df = filtered_df[filtered_df['Form'] == form_option]
 
         # Apply characterizations filter
-        if selected_characterizations:
+        if selected_charakteristik:
             filtered_df = filtered_df[
                 filtered_df.apply(
                     lambda row: all(char in ' '.join([str(row['Charakteristik1']), str(row['Charakteristik2']), str(row['Charakteristik3'])]) for char in selected_characterizations), 
