@@ -193,7 +193,7 @@ def main():
         st.write(f"Anzahl Pathogen: {total_pathogenic}")
         st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
         st.header("Plot")
-            plotx = st.radio("X-Achse", ["Pathogenität", "Platten", "Material"])
+        plotx = st.radio("X-Achse", ["Pathogenität", "Platten", "Material"])
             if plotx == "Pathogenität":
                 data = st.session_state.df["Pathogenität"].value_counts().reset_index()
                 data.columns = ["Pathogenität", "Count"]
