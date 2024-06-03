@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 from st_pages import hide_pages
 
+hide_pages(['login'])
+
 st.set_page_config(page_title="Datenbank", page_icon="🗂️", layout="wide")
 
 excel_file = 'statics/bakterien.xlsx'  # Name der Excel-Datei
@@ -24,9 +26,7 @@ def sidebar():
     selected_characterizations = st.sidebar.multiselect('Filter nach Charakterisierung', characterization_options)
 
     return search_term, filter_option, selected_characterizations
-
-hide_pages(['login'])
-
+    
 def main():
     # Title of the web app
     st.title('Bakterien Datenbank')
