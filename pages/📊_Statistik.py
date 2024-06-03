@@ -180,13 +180,18 @@ def main():
         return
     
     st.sidebar.title("Navigation")
+    add_entry_in_sidebar()
+    
+    st.sidebar.write("")  # Empty string to add some space
+    st.sidebar.write("")  # Empty string to add more space if needed
+    st.sidebar.write("")  # You can add more lines for additional space
+
     logout_button = st.sidebar.button("Logout", key="logout_button")
     if logout_button:
         logout()
     
     st.title("Statistik")
     init_dataframe()
-    add_entry_in_sidebar()
     
     tab1, tab2 = st.tabs(["Tabelle", "Plot"])
     
