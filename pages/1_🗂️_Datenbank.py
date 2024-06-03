@@ -48,11 +48,11 @@ def main():
         if form_option != 'Alle':
             filtered_df = filtered_df[filtered_df['Form'] == form_option]
 
-        # Apply characterizations filter
+        # Apply charakteristik filter
         if selected_charakteristik:
             filtered_df = filtered_df[
                 filtered_df.apply(
-                    lambda row: all(char in ' '.join([str(row['Charakteristik1']), str(row['Charakteristik2']), str(row['Charakteristik3'])]) for char in selected_characterizations), 
+                    lambda row: all(char in ' '.join([str(row['Charakteristik1']), str(row['Charakteristik2']), str(row['Charakteristik3'])]) for char in selected_charakteristik), 
                     axis=1
                 )
             ]
