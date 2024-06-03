@@ -19,7 +19,7 @@ def sidebar():
         ('Alle', 'Kokken', 'kokkoide Stäbchen', 'Keulenform', 'nicht einteilbar', 'Schraubenform', 'Sporenform', 'Stäbchen')
     )
 
-    characterization_options = ['Katalase +', 'Oxidase +', 'Lac +', 'Koagulase +', 'α-Hämolye', 'β-Hämolye',
+    characterization_options = ['Katalase +', 'Oxidase +', 'Lac +', 'Koagulase +', 'α-Hämolyse', 'β-Hämolyse',
                                 'Katalase -', 'Oxidase -', 'Lac -', 'Koagulase -']
     selected_characterizations = st.sidebar.multiselect('Filter nach Charakterisierung', characterization_options)
 
