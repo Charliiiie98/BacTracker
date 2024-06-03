@@ -152,26 +152,32 @@ def main():
     """Main function to control the app flow."""
     init_github()
     init_credentials()
-
     if 'authentication' not in st.session_state:
         st.session_state['authentication'] = False
-
     if not st.session_state['authentication']:
         st.sidebar.title("Authentication")
         login_button = st.sidebar.button("Login", key="login_button")
         register_button = st.sidebar.button("Register", key="register_button")
-
         if login_button:
             st.session_state['current_page'] = "Login"
         elif register_button:
             st.session_state['current_page'] = "Register"
-
         if 'current_page' in st.session_state:
             if st.session_state['current_page'] == "Login":
                 login_page()
             elif st.session_state['current_page'] == "Register":
                 register_page()
         return
+    
+    st.sidebar.title("Navigation")
+    add_entry_in_sidebar()
+    
+    st.sidebar.write("")  # Empty string to add some space
+    st.sidebar.write("")  # Empty string to add more space if needed
+    st.sidebar.write("")  # You can add more lines for additional space
+    logout_button = st.sidebar.button("Logout", key="logout_button")
+    if logout_button:
+        logout()
     
     st.title("Statistik")
     init_dataframe()
