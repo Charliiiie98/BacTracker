@@ -14,7 +14,7 @@ def sidebar():
 
     search_term = st.sidebar.text_input('Suche nach Begriff')
 
-    filter_option = st.sidebar.selectbox(
+    form_option = st.sidebar.selectbox(
         'Filter nach Bakterienform',
         ('Alle', 'Kokken', 'kokkoide Stäbchen', 'Keulenform', 'nicht einteilbar', 'Schraubenform', 'Sporenform', 'Stäbchen')
     )
@@ -35,7 +35,7 @@ def main():
     
     tab1, tab2, tab3 = st.tabs(["Alle", "Negativ", "Positiv"])
 
-    search_term, filter_option, selected_characterizations = sidebar()
+    search_term, form_option, selected_characterizations = sidebar()
 
     with tab1:
         filtered_df = df.copy()
@@ -45,7 +45,7 @@ def main():
             filtered_df = filtered_df[filtered_df.apply(lambda row: row.astype(str).str.contains(search_term, case=False).any(), axis=1)]
 
         # Apply bacteria form filter
-        if filter_option != 'Alle':
+        if form_option != 'Alle':
             filtered_df = filtered_df[filtered_df['Form'] == filter_option]
 
         # Apply characterizations filter
