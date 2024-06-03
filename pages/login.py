@@ -16,6 +16,10 @@ def login_page():
         password = st.text_input("Password", type="password")
         if st.form_submit_button("Login"):
             authenticate(st.session_state.username, password)
+            if st.session_state['authentication']:  # Redirect to statistik page upon successful login
+                st.session_state['current_page'] = "statistik"
+                st.experimental_set_query_params(page='statistik')
+
 
 def register_page():
     """Register a new user."""
