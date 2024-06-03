@@ -151,7 +151,8 @@ def calculate_statistics(user_df):
     percent_pathogenic = (total_pathogenic / total_entries) * 100 if total_entries > 0 else 0
     return total_entries, total_pathogenic, percent_pathogenic
 
-def logout():
+def logout
+():
     """Logout the user."""
     st.session_state['authentication'] = False
     st.session_state['username'] = None
@@ -198,38 +199,21 @@ def main():
     st.title("Statistik")
     init_dataframe()
     
-    username = st.session_state['username']
+    username = st.session_state.get('username')  # Changed to use .get() for safe access
     user_df = st.session_state.df[st.session_state.df['username'] == username]
     
-    tab1, tab2 = st.tabs(["Tabelle", "Plot"])
+    tab1, tab2 = st.columns(2)
     
     with tab1:
-        col1, col2 = st.columns(2)
+        st.header("Tabelle")
+        display_dataframe()
         
-        with col1:
-            st.header("Tabelle")
-            display_dataframe()
-            
-        with col2:
-            st.header("Anzahl")
-            total_entries, total_pathogenic, percent_pathogenic = calculate_statistics(user_df)
-            st.write(f"Gesamte Einträge: {total_entries}")
-            st.write(f"Anzahl Pathogen: {total_pathogenic}")
-            st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
-            
     with tab2:
-        st.header("Plot")
-        plotx = st.radio("X-Achse", ["Pathogenität", "Platten", "Material"])
-        if plotx == "Pathogenität":
-            data = user_df["Pathogenität"].value_counts().reset_index()
-            data.columns = ["Pathogenität", "Count"]
-        elif plotx == "Platten":
-            data = user_df["Platten"].value_counts().reset_index()
-            data.columns = ["Platten", "Count"]
-        elif plotx == "Material":
-            data = user_df["Material"].value_counts().reset_index()
-            data.columns = ["Material", "Count"]
-        st.bar_chart(data.set_index(data.columns[0]))
+        st.header("Anzahl")
+        total_entries, total_pathogenic, percent_pathogenic = calculate_statistics(user_df)
+        st.write(f"Gesamte Einträge: {total_entries}")
+        st.write(f"Anzahl Pathogen: {total_pathogenic}")
+        st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
 
 if __name__ == "__main__":
     main()
