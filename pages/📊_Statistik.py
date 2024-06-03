@@ -140,7 +140,9 @@ def logout():
     st.session_state['authentication'] = False
     st.session_state['username'] = None
     st.experimental_rerun()
+    
 hide_pages(['login'])
+
 def main():
     """Main function to control the app flow."""
     init_github()
