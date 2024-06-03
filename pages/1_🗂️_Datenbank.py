@@ -2,9 +2,9 @@ import streamlit as st
 import pandas as pd
 from st_pages import hide_pages
 
-hide_pages(['login'])
-
 st.set_page_config(page_title="Datenbank", page_icon="🗂️", layout="wide")
+
+hide_pages(['login'])
 
 excel_file = 'statics/bakterien.xlsx'  # Name der Excel-Datei
 sheet_name = 'bakterien'  # Name des Blatts, das du laden möchtest
