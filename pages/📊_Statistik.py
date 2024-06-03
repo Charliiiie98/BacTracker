@@ -192,6 +192,19 @@ def main():
         st.write(f"Gesamte Einträge: {total_entries}")
         st.write(f"Anzahl Pathogen: {total_pathogenic}")
         st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
+                    st.header("Plot")
+            plotx = st.radio("X-Achse", ["Pathogenität", "Platten", "Material"])
+            if plotx == "Pathogenität":
+                data = st.session_state.df["Pathogenität"].value_counts().reset_index()
+                data.columns = ["Pathogenität", "Count"]
+            elif plotx == "Platten":
+                data = st.session_state.df["Platten"].value_counts().reset_index()
+                data.columns = ["Platten", "Count"]
+            elif plotx == "Material":
+                data = st.session_state.df["Material"].value_counts().reset_index()
+                data.columns = ["Material", "Count"]
+            st.bar_chart(data.set_index(data.columns[0]))
+
 
 if __name__ == "__main__":
     main()
