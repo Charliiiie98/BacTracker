@@ -8,17 +8,17 @@ Wichtigste AUfgabe:
 ---Ausrechnen von wichtigen Werten
 
 Version 2:
-DATEN SPEICHERN!!
+---DATEN SPEICHERN!!
 ---Bild auf Titelseite hinzufügen (bis jetzt nicht geklappt)
 ---Plot für eigene Statistik (auf gleicher page oder seperaten page muss noch definiert werden)
 
 Version 3:
-Datenbank hinzufügen (hat bis jetzt nicht geklappt)
+---Datenbank hinzufügen (hat bis jetzt nicht geklappt)
 Datenbank page programmieren
 Sidebar mit such fnktionen
 
 Version 4:
-Login einrichten
+---Login einrichten
 
 Evt. Version 5:
 Bilder in Datenbank von Platten
