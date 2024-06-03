@@ -142,10 +142,10 @@ def display_dataframe():
     else:
         st.write("No data to display.")
 
-def calculate_statistics():
-    """Calculate statistics."""
-    total_entries = len(st.session_state.df)
-    total_pathogenic = st.session_state.df['Pathogenität'].value_counts().get('Pathogen', 0)
+def calculate_statistics(user_df):
+    """Calculate statistics for the authenticated user."""
+    total_entries = len(user_df)
+    total_pathogenic = user_df['Pathogenität'].value_counts().get('Pathogen', 0)
     percent_pathogenic = (total_pathogenic / total_entries) * 100 if total_entries > 0 else 0
     return total_entries, total_pathogenic, percent_pathogenic
 
@@ -196,6 +196,9 @@ def main():
     st.title("Statistik")
     init_dataframe()
     
+    username = st.session_state['username']
+    user_df = st.session_state.df[st.session_state.df['username'] == username]
+    
     tab1, tab2 = st.tabs(["Tabelle", "Plot"])
     
     with tab1:
@@ -207,7 +210,7 @@ def main():
             
         with col2:
             st.header("Anzahl")
-            total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
+            total_entries, total_pathogenic, percent_pathogenic = calculate_statistics(user_df)
             st.write(f"Gesamte Einträge: {total_entries}")
             st.write(f"Anzahl Pathogen: {total_pathogenic}")
             st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
@@ -216,13 +219,13 @@ def main():
         st.header("Plot")
         plotx = st.radio("X-Achse", ["Pathogenität", "Platten", "Material"])
         if plotx == "Pathogenität":
-            data = st.session_state.df["Pathogenität"].value_counts().reset_index()
+            data = user_df["Pathogenität"].value_counts().reset_index()
             data.columns = ["Pathogenität", "Count"]
         elif plotx == "Platten":
-            data = st.session_state.df["Platten"].value_counts().reset_index()
+            data = user_df["Platten"].value_counts().reset_index()
             data.columns = ["Platten", "Count"]
         elif plotx == "Material":
-            data = st.session_state.df["Material"].value_counts().reset_index()
+            data = user_df["Material"].value_counts().reset_index()
             data.columns = ["Material", "Count"]
         st.bar_chart(data.set_index(data.columns[0]))
 
