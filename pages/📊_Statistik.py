@@ -180,7 +180,7 @@ def main():
     username = st.session_state.get('username')  # Changed to use .get() for safe access
     user_df = st.session_state.df[st.session_state.df['username'] == username]
     
-tab1, tab2 = st.tabs(["Tabelle", "Plot"])
+    tab1, tab2 = st.tabs(["Tabelle", "Plot"])
     
     with tab1:
             col1, col2 = st.columns(2)
