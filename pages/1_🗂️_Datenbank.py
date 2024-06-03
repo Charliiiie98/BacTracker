@@ -4,8 +4,6 @@ from st_pages import hide_pages
 
 st.set_page_config(page_title="Datenbank", page_icon="🗂️", layout="wide")
 
-hide_pages(['login'])
-
 excel_file = 'statics/bakterien.xlsx'  # Name der Excel-Datei
 sheet_name = 'bakterien'  # Name des Blatts, das du laden möchtest
 
@@ -27,6 +25,8 @@ def sidebar():
 
     return search_term, filter_option, selected_characterizations
     
+hide_pages(['login'])
+
 def main():
     # Title of the web app
     st.title('Bakterien Datenbank')
