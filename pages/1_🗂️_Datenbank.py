@@ -26,7 +26,7 @@ def sidebar():
 
     wachstum_option = st.sidebar.radio(
         'Filter nach Wachstum',
-        ('Alle', 'Aerob', 'Anaerob')
+        ('Alle', 'Aerob', 'Anaerob', 'fakultativ Anaerob', 'Microaerophile', ' 6.5% NaCl')
     )
 
     charakteristik_options = ['α-Hämolyse', 'β-Hämolyse', 'Aesculin +', 'CAMP +', 'Gas +', 'Halbsäurefest', 'Hippurat +', 'Indol +',
