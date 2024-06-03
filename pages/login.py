@@ -82,7 +82,7 @@ def init_credentials():
             st.session_state.df_users = st.session_state.github.read_df(DATA_FILE)
         else:
             st.session_state.df_users = pd.DataFrame(columns=DATA_COLUMNS)
-hide_pages([login])
+hide_pages([login.py])
 def main():
     init_github() # Initialize the GithubContents object
     init_credentials() # Loads the credentials from the Github data repository
