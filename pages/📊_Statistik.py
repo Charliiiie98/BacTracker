@@ -135,6 +135,19 @@ def calculate_statistics(user_df):
     percent_pathogenic = (total_pathogenic / total_entries) * 100 if total_entries > 0 else 0
     return total_entries, total_pathogenic, percent_pathogenic
 
+def get_user_filtered_data(user_df, plotx):
+    """Filter the data for the selected user."""
+    if plotx == "Pathogenität":
+        data = user_df["Pathogenität"].value_counts().reset_index()
+        data.columns = ["Pathogenität", "Count"]
+    elif plotx == "Platten":
+        data = user_df["Platten"].value_counts().reset_index()
+        data.columns = ["Platten", "Count"]
+    elif plotx == "Material":
+        data = user_df["Material"].value_counts().reset_index()
+        data.columns = ["Material", "Count"]
+    return data
+
 def logout():
     """Logout the user."""
     st.session_state['authentication'] = False
@@ -194,17 +207,8 @@ def main():
         st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
         st.header("Plot")
         plotx = st.radio("X-Achse", ["Pathogenität", "Platten", "Material"])
-        if plotx == "Pathogenität":
-            data = st.session_state.df["Pathogenität"].value_counts().reset_index()
-            data.columns = ["Pathogenität", "Count"]
-        elif plotx == "Platten":
-            data = st.session_state.df["Platten"].value_counts().reset_index()
-            data.columns = ["Platten", "Count"]
-        elif plotx == "Material":
-            data = st.session_state.df["Material"].value_counts().reset_index()
-            data.columns = ["Material", "Count"]
-        st.bar_chart(data.set_index(data.columns[0]))
-
+        user_filtered_data = get_user_filtered_data(user_df, plotx)
+        st.bar_chart(user_filtered_data.set_index(user_filtered_data.columns[0]))
 
 if __name__ == "__main__":
     main()
