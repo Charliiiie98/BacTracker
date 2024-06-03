@@ -141,7 +141,7 @@ def logout():
     st.session_state['username'] = None
     st.experimental_rerun()
 
-def statistik()
+def statistik():
     tab1, tab2 = st.tabs(["Tabelle", "Plot"])
     
     with tab1:
