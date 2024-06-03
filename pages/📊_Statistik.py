@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import bcrypt
 from funktions.github_contents import GithubContents
+from st_pages import hide_pages
 
 # Constants
 DATA_FILE_USERS = "MyLoginTable.csv"
@@ -153,6 +154,8 @@ def logout():
     st.session_state['authentication'] = False
     st.session_state['username'] = None
     st.experimental_rerun()
+
+hide_pages(['login'])
 
 def main():
     """Main function to control the app flow."""
