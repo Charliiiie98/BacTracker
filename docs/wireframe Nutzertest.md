@@ -1,5 +1,7 @@
 Hypothesenbildung:
-Ich möchte wissen, ob meine App für ein Laborumfeld nützlich ist, ob es schnell und einfach bedienbar und alle Funktionen für jeden offensichtlich sind.
+
+Ich möchte wissen, ob meine App für ein Mikrobiologie Laborumfeld nützlich ist, ob es schnell und einfach bedienbar und alle Funktionen für
+jeden im Labor offensichtlich sind.
 
 Person erhält Wireframe auf Papier und wertet es mit dem Goal Grid aus.
 
