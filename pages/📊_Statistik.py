@@ -148,6 +148,12 @@ def calculate_statistics():
     percent_pathogenic = (total_pathogenic / total_entries) * 100 if total_entries > 0 else 0
     return total_entries, total_pathogenic, percent_pathogenic
 
+def logout():
+    """Logout the user."""
+    st.session_state['authentication'] = False
+    st.session_state['username'] = None
+    st.experimental_rerun()
+
 def main():
     """Main function to control the app flow."""
     init_github()
@@ -172,6 +178,11 @@ def main():
             elif st.session_state['current_page'] == "Register":
                 register_page()
         return
+    
+    st.sidebar.title("Navigation")
+    logout_button = st.sidebar.button("Logout", key="logout_button")
+    if logout_button:
+        logout()
     
     st.title("Statistik")
     init_dataframe()
@@ -209,3 +220,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
