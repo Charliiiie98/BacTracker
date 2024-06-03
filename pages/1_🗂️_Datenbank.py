@@ -3,26 +3,20 @@ import pandas as pd
 
 st.set_page_config(page_title="Datenbank", page_icon="🗂️", layout="wide")
 
-# Load the Excel file
 excel_file = 'statics/bakterien.xlsx'  # Name der Excel-Datei
 sheet_name = 'bakterien'  # Name des Blatts, das du laden möchtest
 
-# Read the excel file
 df = pd.read_excel(excel_file, sheet_name=sheet_name)
 
-# Sidebar für Suchfunktion und Filter
 st.sidebar.title('Such- und Filteroptionen')
 
-# Suchfunktion in der Sidebar
 search_term = st.sidebar.text_input('Suche nach Begriff')
 
-# Filter-Optionen in der Sidebar
 filter_option = st.sidebar.selectbox(
     'Filter nach Bakterienform',
-    ('Alle', 'Stäbchen', 'Kokken', 'kokkoide Stäbchen', 'Keulenform', 'Schraubenform', 'Sporenform')
+    ('Alle', 'Kokken', 'kokkoide Stäbchen', 'Keulenform', 'nicht einteilbar' 'Schraubenform', 'Sporenform', 'Stäbchen')
 )
 
-# Multiselect for characterizations in the sidebar
 characterization_options = ['Katalase +', 'Oxidase +', 'Lac +', 'Koagulase +', 'α-Hämolye', 'β-Hämolye',
                             'Katalase -', 'Oxidase -', 'Lac -', 'Koagulase -']
 selected_characterizations = st.sidebar.multiselect('Filter nach Charakterisierung', characterization_options)
