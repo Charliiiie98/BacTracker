@@ -50,7 +50,7 @@ def main():
         if selected_characterizations:
             filtered_df = filtered_df[
                 filtered_df.apply(
-                    lambda row: all(char in ' '.join([str(row['Charakteristik1']), str(row['CCharakteristik2']), str(row['Charakteristik3'])]) for char in selected_characterizations), 
+                    lambda row: all(char in ' '.join([str(row['Charakteristik1']), str(row['Charakteristik2']), str(row['Charakteristik3'])]) for char in selected_characterizations), 
                     axis=1
                 )
             ]
