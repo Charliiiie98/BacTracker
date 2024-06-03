@@ -3,7 +3,6 @@ import streamlit as st
 import pandas as pd
 import bcrypt
 from funktions.github_contents import GithubContents
-from st_pages import hide_pages
 
 # Constants
 DATA_FILE_USERS = "MyLoginTable.csv"
@@ -63,9 +62,7 @@ def register_page():
                 st.session_state.df_users = pd.concat([st.session_state.df_users, new_user], ignore_index=True)
                 
                 st.session_state.github.write_df(DATA_FILE_USERS, st.session_state.df_users, "added new user")
-                st.success("Registration successful! Redirecting to login page...")
-                st.session_state['current_page'] = "Login"
-                st.experimental_rerun()
+                st.success("Registration successful! You can now log in.")
 
 def init_github():
     """Initialize the GithubContents object."""
@@ -102,7 +99,7 @@ def add_entry_in_sidebar():
         unique_key = f"{column}_{i}_entry"
         if column != 'username' and column != 'Pathogenität':
             if column == 'Platten':
-                new_entry[column] = st.sidebar.selectbox(column, options=["Blutagar", "CET", "CLED", "CNA", "HEA", "Kochblutagar", "MCA", "MSA"], key=unique_key)
+                new_entry[column] = st.sidebar.selectbox(column, options=["Blutagar", "CET", "CLED", "CNA", "HEA", "Kochblutagar" "MCA", "MSA"], key=unique_key)
             else:
                 new_entry[column] = st.sidebar.text_input(column, key=unique_key)
     
@@ -144,20 +141,12 @@ def display_dataframe():
     else:
         st.write("No data to display.")
 
-def calculate_statistics(user_df):
-    """Calculate statistics for the authenticated user."""
-    total_entries = len(user_df)
-    total_pathogenic = user_df['Pathogenität'].value_counts().get('Pathogen', 0)
+def calculate_statistics():
+    """Calculate statistics."""
+    total_entries = len(st.session_state.df)
+    total_pathogenic = st.session_state.df['Pathogenität'].value_counts().get('Pathogen', 0)
     percent_pathogenic = (total_pathogenic / total_entries) * 100 if total_entries > 0 else 0
     return total_entries, total_pathogenic, percent_pathogenic
-
-def logout():
-    """Logout the user."""
-    st.session_state['authentication'] = False
-    st.session_state['username'] = None
-    st.experimental_rerun()
-
-hide_pages(['login'])
 
 def main():
     """Main function to control the app flow."""
@@ -182,23 +171,11 @@ def main():
                 login_page()
             elif st.session_state['current_page'] == "Register":
                 register_page()
-    
-    st.sidebar.title("Navigation")
-    add_entry_in_sidebar()
-    
-    st.sidebar.write("")  # Empty string to add some space
-    st.sidebar.write("")  # Empty string to add more space if needed
-    st.sidebar.write("")  # You can add more lines for additional space
-
-    logout_button = st.sidebar.button("Logout", key="logout_button")
-    if logout_button:
-        logout()
+        return
     
     st.title("Statistik")
     init_dataframe()
-    
-    username = st.session_state.get('username')  # Changed to use .get() for safe access
-    user_df = st.session_state.df[st.session_state.df['username'] == username]
+    add_entry_in_sidebar()
     
     tab1, tab2 = st.tabs(["Tabelle", "Plot"])
     
@@ -211,7 +188,7 @@ def main():
             
         with col2:
             st.header("Anzahl")
-            total_entries, total_pathogenic, percent_pathogenic = calculate_statistics(user_df)
+            total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
             st.write(f"Gesamte Einträge: {total_entries}")
             st.write(f"Anzahl Pathogen: {total_pathogenic}")
             st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
@@ -229,7 +206,6 @@ def main():
             data = st.session_state.df["Material"].value_counts().reset_index()
             data.columns = ["Material", "Count"]
         st.bar_chart(data.set_index(data.columns[0]))
-
 
 if __name__ == "__main__":
     main()
