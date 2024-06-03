@@ -151,8 +151,7 @@ def calculate_statistics(user_df):
     percent_pathogenic = (total_pathogenic / total_entries) * 100 if total_entries > 0 else 0
     return total_entries, total_pathogenic, percent_pathogenic
 
-def logout
-():
+def logout():
     """Logout the user."""
     st.session_state['authentication'] = False
     st.session_state['username'] = None
