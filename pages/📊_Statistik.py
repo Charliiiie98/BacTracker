@@ -211,7 +211,7 @@ def main():
     username = st.session_state.get('username')  # Changed to use .get() for safe access
     user_df = st.session_state.df[st.session_state.df['username'] == username]
 
-    init_statistik()
+    statistik()
 
 if __name__ == "__main__":
     main()
