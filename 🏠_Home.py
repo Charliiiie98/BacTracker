@@ -3,7 +3,7 @@ from st_pages import hide_pages
 
 st.set_page_config(page_title="Home", page_icon="🏠", layout="wide")
 
-hide_pages(["pages/login.py"])
+hide_pages(['login'])
 
 def main():
     st.title('BacTracker')
