@@ -212,7 +212,7 @@ def main():
             
         with col2:
             st.header("Anzahl")
-            total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
+            total_entries, total_pathogenic, percent_pathogenic = calculate_statistics(user_df)
             st.write(f"Gesamte Einträge: {total_entries}")
             st.write(f"Anzahl Pathogen: {total_pathogenic}")
             st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
