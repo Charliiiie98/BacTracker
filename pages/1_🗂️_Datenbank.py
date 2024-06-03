@@ -20,7 +20,7 @@ def sidebar():
     )
 
     characterization_options = ['α-Hämolyse', 'β-Hämolyse', 'Aesculin +' 'CAMP +', 'Gas +', 'Halbsäurefest', 'Hippurat +', 'Indol +',
-                                ' Kapsel', 'Katalase +', 'Katalase -', 'Koagulase +', 'Koagulase -', 'KOH +', 'Kultur', 'Lac +', 'Lac -',
+                                'Kapsel', 'Katalase +', 'Katalase -', 'Koagulase +', 'Koagulase -', 'KOH +', 'Kultur', 'Lac +', 'Lac -',
                                 'nicht kultivierbar', 'Oxidase +', 'Oxidase -', 'PCR', ' Pyr +', 'Säurefest', 'Serologie', 'Urease +']
     
     selected_characterizations = st.sidebar.multiselect('Filter nach Charakterisierung', characterization_options)
