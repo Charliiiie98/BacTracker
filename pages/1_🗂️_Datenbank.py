@@ -19,13 +19,18 @@ def sidebar():
         ('Alle', 'Kokken', 'kokkoide Stäbchen', 'Keulenform', 'nicht einteilbar', 'Schraubenform', 'Sporenform', 'Stäbchen')
     )
 
-    charakteristik_options = ['α-Hämolyse', 'β-Hämolyse', 'Aesculin +' 'CAMP +', 'Gas +', 'Halbsäurefest', 'Hippurat +', 'Indol +',
+    motilität_option = st.sidebar.selectbox(
+        'Filter nach Motilität',
+        ('Alle', 'beweglich', 'Endoflagellen', 'periplasmatische Begeisselung', 'schwärmend', 'unbeweglich')
+    )
+
+    charakteristik_options = ['α-Hämolyse', 'β-Hämolyse', 'Aesculin +', 'CAMP +', 'Gas +', 'Halbsäurefest', 'Hippurat +', 'Indol +',
                                 'Kapsel', 'Katalase +', 'Katalase -', 'Koagulase +', 'Koagulase -', 'KOH +', 'Kultur', 'Lac +', 'Lac -',
-                                'nicht kultivierbar', 'Oxidase +', 'Oxidase -', 'PCR', ' Pyr +', 'Säurefest', 'Serologie', 'Urease +']
+                                'nicht kultivierbar', 'Oxidase +', 'Oxidase -', 'PCR', 'Pyr +', 'Säurefest', 'Serologie', 'Urease +']
     
     selected_charakteristik = st.sidebar.multiselect('Filter nach Charakteristik', charakteristik_options)
 
-    return search_term, form_option, selected_charakteristik
+    return search_term, form_option, motilität_option, selected_charakteristik
     
 hide_pages(['login'])
 
@@ -35,7 +40,7 @@ def main():
     
     tab1, tab2, tab3 = st.tabs(["Alle", "Negativ", "Positiv"])
 
-    search_term, form_option, selected_charakteristik = sidebar()
+    search_term, form_option, motilität_option, selected_charakteristik = sidebar()
 
     with tab1:
         filtered_df = df.copy()
@@ -47,6 +52,10 @@ def main():
         # Apply bacteria form filter
         if form_option != 'Alle':
             filtered_df = filtered_df[filtered_df['Form'] == form_option]
+
+        # Apply motilität filter
+        if motilität_option != 'Alle':
+            filtered_df = filtered_df[filtered_df['Motilität'] == motilität_option]
 
         # Apply charakteristik filter
         if selected_charakteristik:
