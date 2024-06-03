@@ -180,35 +180,35 @@ def main():
     username = st.session_state.get('username')  # Changed to use .get() for safe access
     user_df = st.session_state.df[st.session_state.df['username'] == username]
     
-tab1, tab2 = st.tabs(["Tabelle", "Plot"])
-    
-    with tab1:
-        col1, col2 = st.columns(2)
+    tab1, tab2 = st.tabs(["Tabelle", "Plot"])
         
-        with col1:
-            st.header("Tabelle")
-            display_dataframe()
+    with tab1:
+            col1, col2 = st.columns(2)
             
-        with col2:
-            st.header("Anzahl")
-            total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
-            st.write(f"Gesamte Einträge: {total_entries}")
-            st.write(f"Anzahl Pathogen: {total_pathogenic}")
-            st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
-            
+            with col1:
+                st.header("Tabelle")
+                display_dataframe()
+                
+            with col2:
+                st.header("Anzahl")
+                total_entries, total_pathogenic, percent_pathogenic = calculate_statistics()
+                st.write(f"Gesamte Einträge: {total_entries}")
+                st.write(f"Anzahl Pathogen: {total_pathogenic}")
+                st.write(f"Prozentualer Anteil Pathogen: {percent_pathogenic:.2f}%")
+                
     with tab2:
-        st.header("Plot")
-        plotx = st.radio("X-Achse", ["Pathogenität", "Platten", "Material"])
-        if plotx == "Pathogenität":
-            data = st.session_state.df["Pathogenität"].value_counts().reset_index()
-            data.columns = ["Pathogenität", "Count"]
-        elif plotx == "Platten":
-            data = st.session_state.df["Platten"].value_counts().reset_index()
-            data.columns = ["Platten", "Count"]
-        elif plotx == "Material":
-            data = st.session_state.df["Material"].value_counts().reset_index()
-            data.columns = ["Material", "Count"]
-        st.bar_chart(data.set_index(data.columns[0]))
+            st.header("Plot")
+            plotx = st.radio("X-Achse", ["Pathogenität", "Platten", "Material"])
+            if plotx == "Pathogenität":
+                data = st.session_state.df["Pathogenität"].value_counts().reset_index()
+                data.columns = ["Pathogenität", "Count"]
+            elif plotx == "Platten":
+                data = st.session_state.df["Platten"].value_counts().reset_index()
+                data.columns = ["Platten", "Count"]
+            elif plotx == "Material":
+                data = st.session_state.df["Material"].value_counts().reset_index()
+                data.columns = ["Material", "Count"]
+            st.bar_chart(data.set_index(data.columns[0]))
 
 if __name__ == "__main__":
     main()
