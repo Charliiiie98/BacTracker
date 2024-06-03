@@ -95,9 +95,9 @@ def main():
 
         # Display the appropriate page
         if st.session_state['current_page'] == "Login":
-            login_page()
+            st.empty()  # Empty main part
         elif st.session_state['current_page'] == "Register":
-            register_page()
+            st.empty()  # Empty main part
     else:
         st.experimental_set_query_params(page='statistik')  # Set the page parameter to 'statistik'
 
