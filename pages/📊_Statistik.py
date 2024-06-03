@@ -63,7 +63,9 @@ def register_page():
                 st.session_state.df_users = pd.concat([st.session_state.df_users, new_user], ignore_index=True)
                 
                 st.session_state.github.write_df(DATA_FILE_USERS, st.session_state.df_users, "added new user")
-                st.success("Registration successful! You can now log in.")
+                st.success("Registration successful! Redirecting to login page...")
+                st.session_state['current_page'] = "Login"
+                st.experimental_rerun()
 
 def init_github():
     """Initialize the GithubContents object."""
