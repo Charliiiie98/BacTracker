@@ -23,7 +23,7 @@ def sidebar():
                                 'Kapsel', 'Katalase +', 'Katalase -', 'Koagulase +', 'Koagulase -', 'KOH +', 'Kultur', 'Lac +', 'Lac -',
                                 'nicht kultivierbar', 'Oxidase +', 'Oxidase -', 'PCR', ' Pyr +', 'Säurefest', 'Serologie', 'Urease +']
     
-    selected_characterizations = st.sidebar.multiselect('Filter nach Charakterisierung', characterization_options)
+    selected_characterizations = st.sidebar.multiselect('Filter nach Charakteristik', characterization_options)
 
     return search_term, filter_option, selected_characterizations
     
