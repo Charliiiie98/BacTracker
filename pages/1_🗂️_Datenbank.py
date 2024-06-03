@@ -29,13 +29,19 @@ def sidebar():
         ('Alle', 'Aerob', 'Anaerob', 'fakultativ Anaerob', 'Microaerophile', ' 6.5% NaCl')
     )
 
+    erscheinung_option = st.sidebar.selectbox(
+        'Filter nach Erscheinung',
+        ['Alle', 'Anspruchsvoll', 'Diplokokken', 'Fermenter', 'Gram-variabel', 'Haufen-Kokken', 'Intrazellulär', 'Ketten-Kokken',
+         'Non-Fermenter', 'Polkörperchen', 'Sporenbildner']
+    )
+
     charakteristik_options = ['α-Hämolyse', 'β-Hämolyse', 'Aesculin +', 'CAMP +', 'Gas +', 'Halbsäurefest', 'Hippurat +', 'Indol +',
                                 'Kapsel', 'Katalase +', 'Katalase -', 'Koagulase +', 'Koagulase -', 'KOH +', 'Kultur', 'Lac +', 'Lac -',
                                 'nicht kultivierbar', 'Oxidase +', 'Oxidase -', 'PCR', 'Pyr +', 'Säurefest', 'Serologie', 'Urease +']
     
     selected_charakteristik = st.sidebar.multiselect('Filter nach Charakteristik', charakteristik_options)
 
-    return search_term, form_option, motilität_option, wachstum_option, selected_charakteristik
+    return search_term, form_option, motilität_option, wachstum_option, selected_charakteristik, erscheinung_option
     
 hide_pages(['login'])
 
@@ -45,7 +51,7 @@ def main():
     
     tab1, tab2, tab3 = st.tabs(["Alle", "Negativ", "Positiv"])
 
-    search_term, form_option, motilität_option, wachstum_option, selected_charakteristik = sidebar()
+    search_term, form_option, motilität_option, wachstum_option, selected_charakteristik, erscheinung_option = sidebar()
 
     with tab1:
         filtered_df = df.copy()
@@ -74,6 +80,10 @@ def main():
                     axis=1
                 )
             ]
+        
+        # Apply erscheinung filter
+        if erscheinung_option != 'Alle':
+            filtered_df = filtered_df[filtered_df['Erscheinung'] == erscheinung_option]
 
         st.write("Datenbank-Inhalt:")
         st.markdown(filtered_df.to_html(index=False, escape=False), unsafe_allow_html=True)  # Convert DataFrame to HTML and render using st.markdown
