@@ -99,7 +99,7 @@ def add_entry_in_sidebar():
         unique_key = f"{column}_{i}_entry"
         if column != 'username' and column != 'Pathogenität':
             if column == 'Platten':
-                new_entry[column] = st.sidebar.selectbox(column, options=["Option 1", "Option 2", "Option 3"], key=unique_key)
+                new_entry[column] = st.sidebar.selectbox(column, options=["Blutagar", "CET", "CLED", "CNA", "HEA", "Kochblutagar" "MCA", "MSA"], key=unique_key)
             else:
                 new_entry[column] = st.sidebar.text_input(column, key=unique_key)
     
