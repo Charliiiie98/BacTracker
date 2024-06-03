@@ -24,7 +24,7 @@ def sidebar():
         ('Alle', 'beweglich', 'Endoflagellen', 'periplasmatische Begeisselung', 'schwärmend', 'unbeweglich')
     )
 
-    wachstum_option = st.sidebar.ratio(
+    wachstum_option = st.sidebar.radio(
         'Filter nach Wachstum',
         ('Alle', 'Aerob', 'Anaerob')
     )
