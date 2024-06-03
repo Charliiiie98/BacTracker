@@ -1,9 +1,9 @@
 import streamlit as st
 from st_pages import hide_pages
 
-hide_pages(["pages/login.py"])
-
 st.set_page_config(page_title="Home", page_icon="🏠", layout="wide")
+
+hide_pages(["pages/login.py"])
 
 def main():
     st.title('BacTracker')
