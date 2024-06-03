@@ -25,7 +25,7 @@ def sidebar():
     
     selected_characterizations = st.sidebar.multiselect('Filter nach Charakteristik', characterization_options)
 
-    return search_term, filter_option, selected_characterizations
+    return search_term, form_option, selected_characterizations
     
 hide_pages(['login'])
 
@@ -46,7 +46,7 @@ def main():
 
         # Apply bacteria form filter
         if form_option != 'Alle':
-            filtered_df = filtered_df[filtered_df['Form'] == filter_option]
+            filtered_df = filtered_df[filtered_df['Form'] == form_option]
 
         # Apply characterizations filter
         if selected_characterizations:
